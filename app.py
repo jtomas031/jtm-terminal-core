@@ -2,152 +2,194 @@ import streamlit as st
 import yfinance as yf
 import plotly.graph_objects as go
 import feedparser
+import pandas as pd
 import time
 
-# --- 1. CONFIGURAÇÃO DE COMANDO TÁTICO ---
-st.set_page_config(page_title="JTM CAPITAL | Research", layout="wide", page_icon="⚡")
+# --- 1. CONFIGURAÇÃO DE PORTAL (COINDESK STYLE) ---
+st.set_page_config(page_title="JTM CAPITAL | Research Hub", layout="wide", page_icon="🌐")
 
-# Motor de Atualização Autônoma (60 Segundos)
-st.sidebar.markdown("### ⚙️ CONTROLO DE SISTEMA")
-auto_update = st.sidebar.toggle("ATIVAR RADAR AUTÔNOMO (60s)", value=True)
-st.sidebar.caption("Monitorização do fluxo institucional em tempo real.")
-
-# CSS Corporativo Premium
 st.markdown("""
 <style>
-    .stApp { background-color: #040914; color: #e2e8f0; font-family: 'Inter', sans-serif; }
-    h1, h2, h3 { color: #ffffff; font-weight: 800; letter-spacing: -0.5px; }
-    .hero-section { background: linear-gradient(90deg, #0f172a 0%, #040914 100%); border-bottom: 2px solid #2563eb; padding: 40px; border-radius: 10px; margin-bottom: 30px; }
-    .hero-title { font-size: 3.8rem; background: -webkit-linear-gradient(#38bdf8, #2563eb); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 10px; font-family: 'Courier New', monospace; font-weight: 900; }
-    .crypto-card { background: linear-gradient(145deg, #0b1120, #0f172a); border: 1px solid #1e293b; padding: 25px; border-radius: 12px; height: 100%; transition: all 0.4s ease; border-top: 4px solid #38bdf8; }
-    .crypto-card:hover { transform: translateY(-5px); border-top: 4px solid #f59e0b; box-shadow: 0 10px 25px rgba(56, 189, 248, 0.15); }
-    .thesis-box { background-color: #0b1121; border: 1px solid #1e293b; padding: 30px; border-radius: 10px; margin-bottom: 25px; border-left: 5px solid #10b981; box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
-    .news-container { background-color: #080c17; border: 1px solid #1e293b; padding: 20px; border-radius: 8px; height: 350px; overflow-y: auto; }
-    .news-title { color: #38bdf8; font-weight: 700; font-size: 1.05rem; margin-bottom: 4px; }
-    .news-meta { color: #64748b; font-size: 0.75rem; text-transform: uppercase; font-weight: 600; margin-bottom: 12px; }
-    [data-testid="stMetric"] { background-color: #080d1a; border: 1px solid #1e293b; border-left: 4px solid #38bdf8; padding: 15px; border-radius: 8px; }
+    /* Estética Clean & Professional News Portal */
+    .stApp { background-color: #0b1120; color: #f8fafc; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; }
+    h1, h2, h3, h4 { color: #ffffff; font-weight: 700; }
+    
+    /* Hero e Artigos */
+    .article-box { background-color: #1e293b; padding: 40px; border-radius: 8px; margin-bottom: 30px; border-left: 6px solid #38bdf8; line-height: 1.8; font-size: 1.1rem; }
+    .article-title { font-size: 2.5rem; color: #38bdf8; margin-bottom: 20px; font-weight: 800; border-bottom: 1px solid #334155; padding-bottom: 10px; }
     .highlight { color: #38bdf8; font-weight: bold; }
+    .highlight-green { color: #10b981; font-weight: bold; }
+    
+    /* Telemetria e Cartões */
+    .metric-container { background-color: #0f172a; border: 1px solid #334155; border-radius: 8px; padding: 20px; text-align: center; }
+    .metric-value { font-size: 1.8rem; font-weight: bold; color: #ffffff; }
+    .metric-sub { font-size: 0.9rem; color: #94a3b8; }
+    
+    /* Tabelas Prós/Contras */
+    .pc-table { width: 100%; border-collapse: collapse; margin-top: 15px; margin-bottom: 25px; background-color: #0f172a; border-radius: 8px; overflow: hidden; }
+    .pc-table th, .pc-table td { border: 1px solid #334155; padding: 15px; text-align: left; }
+    .pc-table th { background-color: #1e293b; color: #38bdf8; font-size: 1.1rem; }
+    .pro-td { border-left: 4px solid #10b981 !important; }
+    .con-td { border-left: 4px solid #ef4444 !important; }
+    
+    /* Notícias Específicas */
+    .news-card { background-color: #1e293b; padding: 15px; border-radius: 6px; margin-bottom: 10px; border-left: 3px solid #64748b; }
+    .news-card a { color: #e2e8f0; text-decoration: none; font-weight: 600; font-size: 1.05rem; }
+    .news-card a:hover { color: #38bdf8; }
 </style>
 """, unsafe_allow_html=True)
 
-# --- 2. CABEÇALHO DO THINK TANK ---
-st.markdown('<div class="hero-section"><h1 class="hero-title">JTM CAPITAL RESEARCH</h1><h3>🌍 Monitorização de Transição RWA & ISO 20022</h3><p>Análise de infraestrutura matemática e fluxos de capital fiduciário para o novo sistema financeiro europeu e global.</p></div>', unsafe_allow_html=True)
+# --- 2. CABEÇALHO DO PORTAL ---
+st.markdown('<div style="text-align: center; margin-bottom: 40px;"><h1 style="font-size: 4rem; color: #ffffff; font-family: \'Georgia\', serif; letter-spacing: 2px;">JTM CAPITAL <span style="color: #38bdf8;">RESEARCH</span></h1><p style="color: #94a3b8; font-size: 1.2rem; text-transform: uppercase; letter-spacing: 4px;">Inteligência Institucional & Educação Financeira</p></div>', unsafe_allow_html=True)
 
-# --- 3. TELEMETRIA TÁTICA (CONVERSÃO EUROS - €) ---
-@st.cache_data(ttl=50)
-def get_market_data(ticker):
+# --- 3. SECÇÃO EDUCATIVA PROFUNDA (O "PORQUÊ" PARA O PÚBLICO) ---
+st.markdown('<div class="article-box">', unsafe_allow_html=True)
+st.markdown('<div class="article-title">O Fim do Dinheiro de Papel: Entendendo a Tokenização (RWA)</div>', unsafe_allow_html=True)
+st.write("""
+Imagine que possui um apartamento de 500.000€. Se precisar de 5.000€ amanhã, não pode vender apenas "a cozinha" do apartamento. O ativo é ilíquido. A **Tokenização de Ativos do Mundo Real (RWA)** resolve isto. 
+
+Ao utilizar a tecnologia Blockchain (como a rede Ethereum), a BlackRock e outros gigantes estão a transformar propriedades, ouro, ações e até dívida pública em "fichas digitais" (tokens). Um apartamento de 500.000€ pode ser dividido em 500.000 tokens de 1€. Qualquer pessoa, em qualquer parte do mundo, pode comprar 10€ dessa casa instantaneamente, 24 horas por dia, 7 dias por semana.
+
+Isto não é o futuro distante. <span class="highlight">Acontece agora.</span> O fundo BUIDL da BlackRock já tokenizou centenas de milhões de dólares em obrigações do tesouro americano na rede Ethereum. As criptomoedas já não são apenas moedas; são a **infraestrutura de software** onde toda a economia mundial será negociada.
+""", unsafe_allow_html=True)
+st.markdown('</div>', unsafe_allow_html=True)
+
+
+
+st.markdown('<div class="article-box">', unsafe_allow_html=True)
+st.markdown('<div class="article-title">A Norma ISO 20022: O Novo Sistema Nervoso dos Bancos</div>', unsafe_allow_html=True)
+st.write("""
+Quando envia dinheiro de Portugal para o Japão hoje, a transação passa por um sistema chamado **SWIFT**, criado na década de 1970. É lento (demora dias), caro e frequentemente perde informações. 
+
+O mundo está a adotar obrigatoriamente um novo padrão de comunicação financeira chamado **ISO 20022**. Este padrão permite que as transferências carreguem enormes volumes de dados (quem envia, porquê, recibos em anexo). Mas há um detalhe vital: o sistema bancário tradicional não tem velocidade para processar isto instantaneamente. 
+
+É aqui que entram ativos como o **XRP (Ripple)**, **XLM (Stellar)** e **QNT (Quant)**. Eles foram desenhados de raiz para falar a linguagem ISO 20022. Os Bancos Centrais não vão usar "Bitcoin" para transferir euros entre si; vão usar pontes institucionais (como o XRP) que liquidam transações em 3 segundos, custando frações de cêntimo, cumprindo todas as leis globais de transparência.
+""", unsafe_allow_html=True)
+st.markdown('</div>', unsafe_allow_html=True)
+
+
+
+st.divider()
+
+# --- 4. MOTOR DE TELEMETRIA PROFUNDA (PREÇO, VOL, MCAP) ---
+st.markdown("## 📡 Monitorização de Mercado Global")
+
+@st.cache_data(ttl=300)
+def get_deep_market_data(ticker):
     try:
-        df = yf.download(ticker, period="2d", interval="1h", progress=False)
-        current_price = df['Close'].iloc[-1].item()
-        open_price = df['Open'].iloc[0].item()
-        change_pct = ((current_price - open_price) / open_price) * 100
-        return current_price, change_pct
+        t = yf.Ticker(ticker)
+        df = t.history(period="2d")
+        
+        if len(df) >= 2:
+            current = df['Close'].iloc[-1]
+            prev = df['Close'].iloc[-2]
+            change = ((current - prev) / prev) * 100
+            vol = df['Volume'].iloc[-1]
+        else:
+            current, change, vol = 0.0, 0.0, 0.0
+            
+        # Tenta obter o Market Cap, se falhar, faz uma aproximação visual rápida
+        info = t.info
+        mcap = info.get('marketCap', current * info.get('circulatingSupply', 0))
+        if mcap == 0: mcap = current * 1000000 # Fallback de emergência
+        
+        return current, change, vol, mcap
     except:
-        return 0.0, 0.0
+        return 0.0, 0.0, 0.0, 0.0
 
-assets = {
-    "BTC (ESCUDO)": "BTC-EUR",
-    "ETH (BASE)": "ETH-EUR",
-    "LINK (ORÁCULO)": "LINK-EUR",
-    "XRP (ISO-1)": "XRP-EUR",
-    "XLM (ISO-2)": "XLM-EUR",
-    "QNT (INTEROP)": "QNT-EUR",
-    "RNDR (DePIN)": "RNDR-EUR"
+def format_large_number(num):
+    if num >= 1_000_000_000:
+        return f"€{(num / 1_000_000_000):.2f} B"
+    elif num >= 1_000_000:
+        return f"€{(num / 1_000_000):.2f} M"
+    return f"€{num:,.0f}"
+
+assets_list = {
+    "Bitcoin": "BTC-EUR", "Ethereum": "ETH-EUR", "Chainlink": "LINK-EUR",
+    "Ripple": "XRP-EUR", "Quant": "QNT-EUR", "Stellar": "XLM-EUR", "Render": "RNDR-EUR"
 }
 
-st.subheader("📡 VETORES DE LIQUIDEZ (EUR €)")
-metric_cols = st.columns(len(assets))
-for i, (name, ticker) in enumerate(assets.items()):
-    price, change = get_market_data(ticker)
-    metric_cols[i].metric(label=name, value=f"€ {price:,.3f}", delta=f"{change:+.2f}%")
+# Cria grelha de telemetria
+cols = st.columns(4)
+for i, (name, ticker) in enumerate(assets_list.items()):
+    price, change, vol, mcap = get_deep_market_data(ticker)
+    color = "#10b981" if change >= 0 else "#ef4444"
+    
+    with cols[i % 4]:
+        st.markdown(f"""
+        <div class="metric-container">
+            <h4 style="color: #38bdf8; margin-bottom: 5px;">{name}</h4>
+            <div class="metric-value">€ {price:,.2f}</div>
+            <div style="color: {color}; font-weight: bold; margin-bottom: 10px;">{change:+.2f}% (24h)</div>
+            <div class="metric-sub"><b>Vol 24h:</b> {format_large_number(vol)}</div>
+            <div class="metric-sub"><b>Market Cap:</b> {format_large_number(mcap)}</div>
+        </div>
+        """, unsafe_allow_html=True)
+        st.write("")
 
 st.divider()
 
-# --- 4. CENTRO DE ANÁLISE: GRÁFICOS & RADAR DE NOTÍCIAS MULTI-FONTE ---
-col_chart, col_news = st.columns([1.7, 1.3])
+# --- 5. INTELIGÊNCIA POR ATIVO (NOTÍCIAS & ANÁLISE) ---
+st.markdown("## 🔍 Dossiês de Infraestrutura Institucional")
 
-with col_chart:
-    st.subheader("📊 Gráfico de Combate: Bitcoin (€)")
-    @st.cache_data(ttl=900)
-    def plot_asset_eur():
-        df = yf.download("BTC-EUR", period="30d", interval="1d", progress=False)
+@st.cache_data(ttl=1200)
+def fetch_specific_news(keyword):
+    urls = ["https://www.coindesk.com/arc/outboundfeeds/rss/", "https://cointelegraph.com/rss"]
+    relevant_news = []
+    for url in urls:
+        try:
+            feed = feedparser.parse(url)
+            for entry in feed.entries:
+                if keyword.lower() in entry.title.lower() or keyword.lower() in entry.summary.lower():
+                    relevant_news.append({"title": entry.title, "link": entry.link, "date": entry.published[:16]})
+                if len(relevant_news) >= 3: break
+        except:
+            pass
+    return relevant_news
+
+# Sistema de Tabs para navegação limpa
+tabs = st.tabs(list(assets_list.keys()))
+
+def render_crypto_tab(name, ticker, pros, cons, keyword):
+    c1, c2 = st.columns([1.5, 1])
+    
+    with c1:
+        st.markdown(f"### Análise Estratégica: {name}")
+        # Tabela Prós e Contras HTML
+        st.markdown(f"""
+        <table class="pc-table">
+            <tr><th>Vantagens Institucionais (Prós)</th><th>Riscos Associados (Contras)</th></tr>
+            <tr>
+                <td class="pro-td"><ul>{''.join([f"<li>{p}</li>" for p in pros])}</ul></td>
+                <td class="con-td"><ul>{''.join([f"<li>{c}</li>" for c in cons])}</ul></td>
+            </tr>
+        </table>
+        """, unsafe_allow_html=True)
+        
+        # Gráfico
+        df = yf.download(ticker, period="30d", interval="1d", progress=False)
         if not df.empty:
-            fig = go.Figure(data=[go.Candlestick(x=df.index, open=df['Open'], high=df['High'], low=df['Low'], close=df['Close'],
-                            increasing_line_color='#10b981', decreasing_line_color='#ef4444')])
-            fig.update_layout(template="plotly_dark", paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)',
-                              margin=dict(l=0, r=0, t=10, b=0), xaxis_rangeslider_visible=False, height=350)
+            fig = go.Figure(data=[go.Scatter(x=df.index, y=df['Close'], line=dict(color='#38bdf8', width=2), fill='tozeroy', fillcolor='rgba(56, 189, 248, 0.1)')])
+            fig.update_layout(title=f"Volume de Preço (30 Dias) - {name}", template="plotly_dark", paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)', height=250, margin=dict(l=0, r=0, t=30, b=0))
             st.plotly_chart(fig, use_container_width=True)
-    plot_asset_eur()
 
-with col_news:
-    st.subheader("📰 Radar Institucional (Multi-Fonte)")
-    st.markdown('<div class="news-container">', unsafe_allow_html=True)
-    
-    @st.cache_data(ttl=600)
-    def fetch_global_news():
-        urls = [
-            ("CoinDesk", "https://www.coindesk.com/arc/outboundfeeds/rss/"),
-            ("CoinTelegraph", "https://cointelegraph.com/rss")
-        ]
-        all_news = []
-        for source, url in urls:
-            try:
-                feed = feedparser.parse(url)
-                for entry in feed.entries[:4]:
-                    all_news.append({"title": entry.title, "date": entry.published[:16], "source": source, "link": entry.link})
-            except:
-                pass
-        return all_news
+    with c2:
+        st.markdown(f"### Últimas Notícias ({name})")
+        news = fetch_specific_news(keyword)
+        if not news:
+            st.write(f"Sem fluxo de notícias institucionais recentes para {name} nas fontes primárias.")
+        else:
+            for item in news:
+                st.markdown(f"<div class='news-card'><a href='{item['link']}' target='_blank'>{item['title']}</a><br><span style='color:#64748b; font-size:0.8rem;'>{item['date']}</span></div>", unsafe_allow_html=True)
 
-    news_list = fetch_global_news()
-    for item in news_list:
-        st.markdown(f"<p class='news-title'><a href='{item['link']}' target='_blank' style='color:#38bdf8; text-decoration:none;'>■ {item['title']}</a></p>", unsafe_allow_html=True)
-        st.markdown(f"<p class='news-meta'>{item['source']} | {item['date']}</p>", unsafe_allow_html=True)
-        st.markdown("<hr style='border-color: #1e293b; margin: 8px 0;'>", unsafe_allow_html=True)
-    
-    st.markdown('</div>', unsafe_allow_html=True)
+# Preenchimento das Tabs
+with tabs[0]: render_crypto_tab("Bitcoin", "BTC-EUR", ["Escassez matemática (apenas 21 milhões).", "Aprovado por Wall Street (ETFs BlackRock).", "Reserva de valor imune à impressão de dinheiro."], ["Tecnologia antiga e lenta para pagamentos.", "Consumo energético elevado.", "Incapacidade de executar contratos inteligentes complexos."], "bitcoin")
+with tabs[1]: render_crypto_tab("Ethereum", "ETH-EUR", ["Líder global em Tokenização (RWA).", "Maior rede de programadores do mundo.", "Gera rendimento passivo institucional (Staking)."], ["Taxas de transação (Gas) extremamente altas.", "Rede congestionada em momentos de pico.", "Forte concorrência de redes mais novas e rápidas."], "ethereum")
+with tabs[2]: render_crypto_tab("Chainlink", "LINK-EUR", ["Monopólio prático no setor de Oráculos.", "Parcerias ativas com o SWIFT.", "Essencial para que bancos comuniquem com blockchains."], ["Economia do token complexa de entender.", "Depende do sucesso geral do mercado de contratos inteligentes.", "Baixo apelo especulativo para o retalho."], "chainlink")
+with tabs[3]: render_crypto_tab("Ripple", "XRP-EUR", ["Claridade legal absoluta nos EUA.", "Desenhado para o padrão ISO 20022.", "Transações custam cêntimos e demoram 3 segundos."], ["Forte dependência das ações da empresa Ripple Labs.", "Adoção bancária final ainda enfrenta resistência política.", "Elevada quantidade de tokens na posse da empresa original."], "ripple")
+with tabs[4]: render_crypto_tab("Quant", "QNT-EUR", ["Permite interoperabilidade sem criar nova blockchain.", "Foco estrito em CBDCs e Bancos Centrais.", "Oferta total extremamente reduzida (14 milhões)."], ["Ecossistema fechado (código não é totalmente público).", "Depende de adoção puramente corporativa B2B.", "Baixa liquidez nas exchanges de retalho."], "quant")
+with tabs[5]: render_crypto_tab("Stellar", "XLM-EUR", ["Compatível com ISO 20022 e focado em pagamentos transfronteiriços.", "Parcerias com a IBM e governos para emissão de moedas.", "Alta velocidade e escalabilidade."], ["Forte concorrência direta com o XRP.", "Adoção corporativa menos agressiva que o seu rival.", "Inflação histórica do token afetou o preço."], "stellar")
+with tabs[6]: render_crypto_tab("Render", "RNDR-EUR", ["Captura a onda gigante de expansão da Inteligência Artificial.", "Fornece poder de processamento GPU real e necessário.", "Desafia o monopólio da AWS e Google Cloud."], ["Fortemente correlacionado com o 'hype' momentâneo da IA.", "Concorrência crescente no setor de computação descentralizada.", "Dependente da oferta de placas gráficas globais."], "render")
 
 st.divider()
-
-# --- 5. O MANIFESTO DO IMPÉRIO JTM ---
-st.header("A Arquitetura de 2030")
-st.markdown("""
-<div class="thesis-box">
-    <h4 style="color: #10b981; margin-bottom: 10px;">A Liquidação do Dinheiro Fiduciário</h4>
-    <p>O Euro e o Dólar perdem poder de compra diariamente devido à impressão descontrolada pelos Bancos Centrais. A transição não é uma possibilidade; é uma inevitabilidade matemática.</p>
-    <p>A <span class="highlight">JTM CAPITAL</span> posiciona o seu capital na fundação do novo sistema. A tokenização de ativos (RWA) sobre redes blindadas por criptografia (como o Ethereum) e a comunicação interbancária instantânea (ISO 20022) substituem a burocracia humana por código inquebrável.</p>
-</div>
-""", unsafe_allow_html=True)
-
-# --- 6. O PELOTÃO TÁTICO (OS ATIVOS) ---
-c1, c2, c3 = st.columns(3)
-
-with c1:
-    st.markdown('<div class="crypto-card"><h3 style="color: #f7931a;">Bitcoin (BTC)</h3><p><b>A Base: Escudo de Reserva</b></p><p>Propriedade digital absoluta. A proteção final contra a inflação, absorvida agressivamente pela BlackRock e corporações.</p></div>', unsafe_allow_html=True)
-
-with c2:
-    st.markdown('<div class="crypto-card"><h3 style="color: #627eea;">Ethereum (ETH)</h3><p><b>A Base: Autoestrada Global</b></p><p>A camada de liquidação onde a tokenização de obrigações do tesouro e fundos RWA é executada através de Smart Contracts.</p></div>', unsafe_allow_html=True)
-
-with c3:
-    st.markdown('<div class="crypto-card"><h3 style="color: #2a5ada;">Chainlink (LINK)</h3><p><b>Sniper: Oráculo de Dados</b></p><p>A ponte de informação. Fornece o preço exato das ações e mercadorias reais para dentro da blockchain de forma descentralizada.</p></div>', unsafe_allow_html=True)
-
-st.write("")
-
-c4, c5, c6 = st.columns(3)
-
-with c4:
-    st.markdown('<div class="crypto-card"><h3 style="color: #34d399;">XRP & XLM</h3><p><b>Sniper: Liquidez ISO 20022</b></p><p>As artérias do sistema bancário. Desenhadas para liquidações transfronteiriças instantâneas (CBDCs), substituindo a ineficiência do SWIFT.</p></div>', unsafe_allow_html=True)
-
-with c5:
-    st.markdown('<div class="crypto-card"><h3 style="color: #94a3b8;">Quant (QNT)</h3><p><b>Sniper: O Sistema Operativo</b></p><p>O Overledger permite que blockchains privadas de bancos comuniquem com redes públicas de forma segura e certificada.</p></div>', unsafe_allow_html=True)
-
-with c6:
-    st.markdown('<div class="crypto-card"><h3 style="color: #f43f5e;">Render (RNDR)</h3><p><b>Sniper: Infraestrutura DePIN</b></p><p>A economia da IA requer GPUs gigantescas. A rede Render distribui o poder computacional pelo mundo, desafiando a Amazon AWS e a Google Cloud.</p></div>', unsafe_allow_html=True)
-
-st.divider()
-st.markdown("<p style='text-align: center; color: #475569; font-size: 0.85rem; font-family: Courier New;'>JTM CAPITAL © 2026 | PESQUISA INSTITUCIONAL INDEPENDENTE</p>", unsafe_allow_html=True)
-
-# Loop de Atualização Autônoma
-if auto_update:
-    time.sleep(60)
-    st.rerun()
+st.markdown("<p style='text-align: center; color: #64748b; font-size: 0.9rem;'>JTM CAPITAL RESEARCH © 2026 | DADOS EXTRAÍDOS EM TEMPO REAL | INFRAESTRUTURA ANALÍTICA DE MERCADO</p>", unsafe_allow_html=True)
