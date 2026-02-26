@@ -12,7 +12,7 @@ st.sidebar.markdown("### ⚙️ CONTROLO DE SISTEMA")
 auto_update = st.sidebar.toggle("ATIVAR RADAR AUTÔNOMO (60s)", value=True)
 st.sidebar.caption("Monitorização do fluxo institucional em tempo real.")
 
-# CSS Corporativo Premium - BLOCO DE TEXTO BLINDADO
+# CSS Corporativo Premium
 st.markdown("""
 <style>
     .stApp { background-color: #040914; color: #e2e8f0; font-family: 'Inter', sans-serif; }
@@ -139,4 +139,15 @@ with c4:
     st.markdown('<div class="crypto-card"><h3 style="color: #34d399;">XRP & XLM</h3><p><b>Sniper: Liquidez ISO 20022</b></p><p>As artérias do sistema bancário. Desenhadas para liquidações transfronteiriças instantâneas (CBDCs), substituindo a ineficiência do SWIFT.</p></div>', unsafe_allow_html=True)
 
 with c5:
-    st.markdown('<div class="crypto-card"><h3 style="color: #94a3b8;">Quant (QNT)</h3><p><b>Sniper: O Sistema Operativo</b></p><p>O Overledger permite que blockchains privadas de bancos comuniquem com redes públicas de forma segura e certificada.</p></div>', unsafe_allow_html
+    st.markdown('<div class="crypto-card"><h3 style="color: #94a3b8;">Quant (QNT)</h3><p><b>Sniper: O Sistema Operativo</b></p><p>O Overledger permite que blockchains privadas de bancos comuniquem com redes públicas de forma segura e certificada.</p></div>', unsafe_allow_html=True)
+
+with c6:
+    st.markdown('<div class="crypto-card"><h3 style="color: #f43f5e;">Render (RNDR)</h3><p><b>Sniper: Infraestrutura DePIN</b></p><p>A economia da IA requer GPUs gigantescas. A rede Render distribui o poder computacional pelo mundo, desafiando a Amazon AWS e a Google Cloud.</p></div>', unsafe_allow_html=True)
+
+st.divider()
+st.markdown("<p style='text-align: center; color: #475569; font-size: 0.85rem; font-family: Courier New;'>JTM CAPITAL © 2026 | PESQUISA INSTITUCIONAL INDEPENDENTE</p>", unsafe_allow_html=True)
+
+# Loop de Atualização Autônoma
+if auto_update:
+    time.sleep(60)
+    st.rerun()
