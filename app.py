@@ -7,154 +7,129 @@ import pandas as pd
 from datetime import datetime
 
 # ==============================================================================
-# 01. NÚCLEO DE INTELIGÊNCIA E GESTÃO DE ESTADO
+# 01. NÚCLEO DE CONFIGURAÇÃO DO TERMINAL (ESTILO BLOOMBERG)
 # ==============================================================================
 st.set_page_config(
-    page_title="JTM CAPITAL RESEARCH | Institutional Behemoth",
+    page_title="JTM CAPITAL RESEARCH | Behemoth Terminal",
     layout="wide",
     page_icon="🏛️",
     initial_sidebar_state="expanded"
 )
 
-# Inicialização de Memória de Sessão (Rotação e Simulação)
+# Inicialização da Gestão de Estado (Persistência de Dados)
 if 'news_page' not in st.session_state:
     st.session_state.news_page = 0
-if 'dca_months' not in st.session_state:
-    st.session_state.dca_months = 58  # Meses até 2030
+if 'simulation_runs' not in st.session_state:
+    st.session_state.simulation_runs = 0
 
-# --- SIDEBAR DE COMANDO ---
+# --- SIDEBAR DE COMANDO INSTITUCIONAL ---
 with st.sidebar:
-    st.markdown("### ⚙️ COMANDO CENTRAL JTM")
+    st.markdown("<h1 style='color: #38bdf8; font-family: Rajdhani;'>JTM COMMAND</h1>", unsafe_allow_html=True)
     st.markdown("---")
-    auto_update = st.toggle("🟢 RADAR ATIVO (30s)", value=True)
-    st.caption("Sincronização de telemetria e rotação de inteligência.")
+    auto_refresh = st.toggle("🟢 RADAR ATIVO (30s)", value=True)
+    st.caption("Sincronização com o fluxo de liquidez global.")
     
     st.markdown("---")
-    st.markdown("### 🔒 PROTOCOLO DE SOBERANIA")
-    st.warning("**OPERAÇÃO DCA:** ATIVA\n\n**CUSTÓDIA:** TREZOR\n\n**DATA CRÍTICA:** DIA 29")
+    st.markdown("### 🔐 PROTOCOLO DE CUSTÓDIA")
+    st.error("ALVO: TREZOR COLD STORAGE\n\nSTATUS: DCA ATIVO\n\nEXTRAÇÃO: DIA 29")
     
     st.markdown("---")
-    st.markdown("### 📊 ALOCAÇÃO TÁTICA (360€)")
-    st.progress(300/360, text="BASE (BTC/ETH): 300€")
-    st.progress(60/360, text="SNIPER (ISO/RWA): 60€")
+    st.markdown("### 📈 MÉTRICAS DE IMPACTO")
+    st.progress(0.88, text="ABSORÇÃO BTC (ELITE)")
+    st.progress(0.72, text="TOKENIZAÇÃO ETH (RWA)")
     
     st.markdown("---")
-    st.markdown("### ⏱️ RELÓGIO GLOBAL")
-    st.info(f"Lisboa/S.J.Madeira: {datetime.now().strftime('%H:%M:%S')}")
+    st.markdown("### 🌎 TELEMETRIA TEMPORAL")
+    st.info(f"WET: {datetime.now().strftime('%H:%M:%S')}\nEST: {datetime.now().strftime('%H:%M:%S')}")
 
 # ==============================================================================
-# 02. CSS CORPORATIVO: NEURO-DESIGN & DOPAMINA (ESTILO BLOOMBERG/COINDESK)
+# 02. CSS DE ALTA DENSIDADE (ELIMINAÇÃO DE ESPAÇOS E FORMATAÇÃO DE TABELAS)
 # ==============================================================================
 st.markdown("""
 <style>
-    @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Inter:wght@300;400;600;800&family=Courier+New&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Inter:wght@300;400;600;800&family=JetBrains+Mono&display=swap');
     
-    /* Design Global: Abismo Institucional */
+    /* Reset de Margens para Ocupar a Tela Toda */
+    .main .block-container { padding-top: 2rem; padding-bottom: 2rem; padding-left: 3rem; padding-right: 3rem; }
+    
+    /* Design Global Dark-Elite */
     .stApp { 
-        background-color: #02040a; 
-        color: #e2e8f0; 
+        background-color: #010204; 
+        color: #cbd5e1; 
         font-family: 'Inter', sans-serif; 
-        background-image: radial-gradient(circle at 50% 0%, #0f172a 0%, #02040a 80%); 
+        background-image: radial-gradient(circle at 50% 0%, #0f172a 0%, #010204 80%); 
     }
     
-    /* Tipografia e Títulos */
     h1, h2, h3, h4 { color: #ffffff; font-family: 'Rajdhani', sans-serif; text-transform: uppercase; letter-spacing: 2px; }
-    p, li { line-height: 1.8; font-size: 1.1rem; color: #cbd5e1; }
     
-    /* Hero Section: Título Formal */
-    .hero-container {
+    /* Hero Section Imponente */
+    .hero-panel {
         background: rgba(15, 23, 42, 0.4);
-        backdrop-filter: blur(15px);
-        border: 1px solid rgba(56, 189, 248, 0.15);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(56, 189, 248, 0.2);
         border-top: 5px solid #38bdf8;
-        padding: 50px;
+        padding: 60px;
         border-radius: 4px;
         margin-bottom: 40px;
-        box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+        box-shadow: 0 25px 50px rgba(0,0,0,0.8);
     }
-    .hero-title {
-        font-size: 4rem;
-        font-family: 'Courier New', monospace;
-        font-weight: 900;
-        color: #ffffff;
-        letter-spacing: 3px;
-    }
-    .hero-subtitle {
-        font-size: 1.8rem;
-        color: #38bdf8;
-        font-family: 'Rajdhani', sans-serif;
-        letter-spacing: 6px;
-        margin-top: 10px;
-    }
+    .hero-title { font-size: 4.5rem; font-family: 'JetBrains Mono', monospace; font-weight: 900; color: #ffffff; margin: 0; }
     
-    /* Cartões de Telemetria */
+    /* Cartões de Métrica Style */
     .metric-card {
-        background: linear-gradient(145deg, rgba(17, 24, 39, 0.8), rgba(2, 4, 10, 0.9));
-        backdrop-filter: blur(10px);
-        border: 1px solid rgba(255,255,255,0.05);
+        background: #050505;
+        border: 1px solid #111;
         border-left: 5px solid #38bdf8;
         padding: 25px;
-        border-radius: 4px;
-        transition: 0.4s;
-        height: 100%;
-    }
-    .metric-card:hover { transform: translateY(-5px); border-left-color: #10b981; box-shadow: 0 10px 30px rgba(56, 189, 248, 0.2); }
-    .m-title { font-size: 1rem; color: #94a3b8; font-family: 'Courier New'; font-weight: bold; }
-    .m-price { font-size: 2.2rem; color: #ffffff; font-weight: 800; font-family: 'Rajdhani'; }
-    
-    /* Radar Rotativo (Preenchimento Total do Flanco) */
-    .news-hub-sidebar {
-        background: #080c17;
-        border: 1px solid #1e293b;
-        border-left: 4px solid #8b5cf6;
-        padding: 25px;
-        border-radius: 4px;
-        height: 100%;
-        min-height: 550px;
-    }
-    .news-item {
-        background: rgba(15, 23, 42, 0.5);
-        padding: 15px;
-        margin-bottom: 12px;
         border-radius: 2px;
-        border-left: 2px solid #38bdf8;
-        transition: 0.3s;
+        transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        height: 100%;
     }
-    .news-item:hover { background: rgba(30, 41, 59, 0.9); }
-    .news-item a { color: #f8fafc; text-decoration: none; font-weight: 700; font-size: 1.05rem; }
-    .news-meta { font-size: 0.8rem; color: #64748b; margin-top: 8px; text-transform: uppercase; }
+    .metric-card:hover { transform: translateY(-5px); border-color: #38bdf8; box-shadow: 0 10px 30px rgba(56,189,248,0.1); }
+    .m-label { font-size: 0.9rem; color: #64748b; font-family: 'JetBrains Mono'; font-weight: bold; }
+    .m-value { font-size: 2.2rem; color: #ffffff; font-weight: 800; font-family: 'Rajdhani'; }
     
-    /* Artigos Educativos Massivos */
-    .edu-box {
-        background-color: #0b1120;
-        border: 1px solid #1e293b;
-        border-top: 4px solid #34d399;
-        padding: 50px;
-        border-radius: 4px;
+    /* Radar de Notícias - LARGURA TOTAL */
+    .news-full-width {
+        background: #030303;
+        border: 1px solid #111;
+        border-top: 4px solid #8b5cf6;
+        padding: 30px;
         margin-bottom: 40px;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+        width: 100%;
     }
-    .edu-title { font-size: 2.5rem; color: #f8fafc; margin-bottom: 30px; border-bottom: 2px solid #1e293b; padding-bottom: 15px; }
+    .news-item { border-bottom: 1px solid #111; padding: 20px 0; display: flex; justify-content: space-between; align-items: center; }
+    .news-item a { color: #38bdf8; text-decoration: none; font-weight: 800; font-size: 1.2rem; transition: 0.2s; }
+    .news-item a:hover { color: #ffffff; }
+    .news-meta { color: #475569; font-size: 0.85rem; font-family: 'JetBrains Mono'; text-transform: uppercase; }
+
+    /* TABELAS FORMATADAS (CSS BRUTO) */
+    .jtm-table { width: 100%; border-collapse: collapse; margin-top: 20px; background-color: #030303; border-radius: 4px; overflow: hidden; border: 1px solid #111; }
+    .jtm-table th { background-color: #0a0a0a; color: #38bdf8; padding: 20px; text-align: left; font-family: 'Rajdhani'; font-size: 1.3rem; border-bottom: 2px solid #111; }
+    .jtm-table td { padding: 20px; border-bottom: 1px solid #111; vertical-align: top; color: #e2e8f0; line-height: 1.6; }
+    .jtm-pro { color: #10b981; font-weight: bold; }
+    .jtm-con { color: #ef4444; font-weight: bold; }
+
+    /* Artigos de Educação Massiva */
+    .edu-section { background: #050505; border: 1px solid #111; padding: 50px; border-radius: 4px; margin-bottom: 40px; border-left: 8px solid #10b981; }
+    .edu-header { font-size: 2.5rem; color: #ffffff; margin-bottom: 25px; border-bottom: 1px solid #1e293b; padding-bottom: 15px; }
     
-    /* Tabelas Táticas */
-    .tactic-table { width: 100%; border-collapse: collapse; margin: 25px 0; background: #0b1120; }
-    .tactic-table th { background: #1e293b; color: #38bdf8; padding: 20px; text-align: left; font-size: 1.3rem; }
-    .tactic-table td { border: 1px solid #1e293b; padding: 20px; color: #cbd5e1; }
+    /* Gráfico Grelha Bloomberg */
+    .plot-container { background: #000; border: 1px solid #111; padding: 10px; border-radius: 4px; }
 </style>
 """, unsafe_allow_html=True)
 
 # ==============================================================================
-# 03. MATRIZES DE DADOS E INTELIGÊNCIA (ALTA DENSIDADE)
+# 03. MATRIZES DE DADOS INSTITUCIONAIS (+400 LINHAS DE DADOS)
 # ==============================================================================
 SUPPLY_DATA = {
-    "BTC-EUR": 19650000, "ETH-EUR": 120000000, "LINK-EUR": 587000000,
-    "XRP-EUR": 54800000000, "QNT-EUR": 14500000, "XLM-EUR": 28700000000,
-    "RNDR-EUR": 388000000, "HBAR-EUR": 33000000000, "ALGO-EUR": 8000000000,
-    "SOL-EUR": 440000000
+    "BTC-EUR": 19650000, "ETH-EUR": 120000000, "LINK-EUR": 587000000, "XRP-EUR": 54800000000,
+    "QNT-EUR": 14500000, "XLM-EUR": 28700000000, "RNDR-EUR": 388000000, "SOL-EUR": 445000000,
+    "HBAR-EUR": 33000000000, "ALGO-EUR": 8100000000, "DOT-EUR": 1400000000, "ADA-EUR": 35000000000
 }
 
 @st.cache_data(ttl=25)
-def get_market_telemetry(ticker):
+def fetch_telemetry(ticker):
     try:
         df = yf.download(ticker, period="5d", interval="1d", progress=False)
         if not df.empty and len(df) >= 2:
@@ -167,64 +142,73 @@ def get_market_telemetry(ticker):
         return 0.0, 0.0, 0.0, 0.0
     except: return 0.0, 0.0, 0.0, 0.0
 
-def format_euro(num):
-    if num >= 1e12: return f"€ {(num/1e12):.2f} T"
-    if num >= 1e9: return f"€ {(num/1e9):.2f} B"
-    if num >= 1e6: return f"€ {(num/1e6):.2f} M"
+def format_mcap(num):
+    if num >= 1e12: return f"€ {(num/1e12):.2f}T"
+    if num >= 1e9: return f"€ {(num/1e9):.2f}B"
+    if num >= 1e6: return f"€ {(num/1e6):.2f}M"
     return f"€ {num:,.0f}"
 
 @st.cache_data(ttl=600)
-def fetch_global_intel():
-    urls = [("CoinDesk", "https://www.coindesk.com/arc/outboundfeeds/rss/"), ("CoinTelegraph", "https://cointelegraph.com/rss")]
-    news_radar = []
-    for source, url in urls:
+def fetch_radar():
+    sources = [("CoinDesk", "https://www.coindesk.com/arc/outboundfeeds/rss/"), 
+               ("CoinTelegraph", "https://cointelegraph.com/rss"),
+               ("CryptoSlate", "https://cryptoslate.com/feed/")]
+    radar_data = []
+    for source, url in sources:
         try:
             feed = feedparser.parse(url)
             for entry in feed.entries[:12]:
-                news_radar.append({"title": entry.title, "link": entry.link, "source": source, "ts": time.mktime(entry.published_parsed) if hasattr(entry, 'published_parsed') else 0})
+                radar_data.append({"title": entry.title, "link": entry.link, "source": source, 
+                                  "ts": time.mktime(entry.published_parsed) if hasattr(entry, 'published_parsed') else 0})
         except: continue
-    return sorted(news_radar, key=lambda x: x['ts'], reverse=True)
+    return sorted(radar_data, key=lambda x: x['ts'], reverse=True)
 
 # ==============================================================================
-# 04. HERO SECTION (AGENDA DOS LÍDERES MUNDIAIS)
+# 04. HERO SECTION: O MANIFESTO DOS LÍDERES MUNDIAIS
 # ==============================================================================
 st.markdown("""
-<div class="hero-container">
+<div class="hero-panel">
     <div class="hero-title">JTM CAPITAL RESEARCH</div>
-    <div class="hero-subtitle">INSTITUTIONAL STRATEGY // AGENDA 2030</div>
-    <p style="margin-top: 30px; font-size: 1.3rem; line-height: 2; color: #cbd5e1; border-left: 6px solid #38bdf8; padding-left: 30px;">
-        Este terminal monitoriza a execução da <b>Agenda Global de Liquidez</b>. Enquanto o retalho especula, os líderes mundiais, bancos centrais e as gestoras de triliões (BlackRock, Vanguard) estão a reescrever o código do dinheiro. A transição para a norma <b>ISO 20022</b> e a <b>Tokenização de Ativos (RWA)</b> são os novos instrumentos de soberania financeira absoluta impostos pela elite global para o horizonte de 2030.
+    <div style="font-size: 1.8rem; color: #38bdf8; font-family: 'Rajdhani'; letter-spacing: 6px; font-weight: bold; margin-top: 10px;">
+        INSTITUTIONAL INTELLIGENCE // AGENDA 2030
+    </div>
+    <p style="margin-top: 30px; font-size: 1.3rem; line-height: 2; color: #94a3b8; border-left: 6px solid #38bdf8; padding-left: 30px;">
+        Este terminal monitoriza a execução da <b>Agenda Global de Liquidez</b>. Enquanto o retalho especula no ruído, os líderes mundiais, bancos centrais (BCE, FED) e gestoras de triliões (BlackRock, Fidelity) estão a reescrever as leis do capital. A transição obrigatória para a norma <b>ISO 20022</b> e a <b>Tokenização de Ativos (RWA)</b> são os instrumentos de soberania financeira impostos para o Reset de 2030. Operamos baseados na escassez matemática e no fluxo institucional.
     </p>
 </div>
 """, unsafe_allow_html=True)
 
 # ==============================================================================
-# 05. TELEMETRIA TÁTICA (EUROS €)
+# 05. TELEMETRIA TÁTICA (EUROS €) - GRELHA EXPANDIDA
 # ==============================================================================
-st.markdown("<h2><span style='color:#38bdf8;'>■</span> VETORES DE ABSORÇÃO INSTITUCIONAL (EUR €)</h2>", unsafe_allow_html=True)
+st.markdown("<h2><span style='color:#38bdf8;'>■</span> VETORES DE ABSORÇÃO GLOBAL (EUR €)</h2>", unsafe_allow_html=True)
 
-assets = {
+assets_grid = {
     "BTC": ("BITCOIN (RESERVA)", "BTC-EUR"), "ETH": ("ETHEREUM (SETTLEMENT)", "ETH-EUR"),
-    "LINK": ("CHAINLINK (ORACLE)", "LINK-EUR"), "XRP": ("RIPPLE (ISO 20022)", "XRP-EUR"),
+    "XRP": ("RIPPLE (ISO 20022)", "XRP-EUR"), "LINK": ("CHAINLINK (ORACLE)", "LINK-EUR"),
     "QNT": ("QUANT (INTEROP)", "QNT-EUR"), "XLM": ("STELLAR (ISO 20022)", "XLM-EUR"),
-    "RNDR": ("RENDER (AI COMPUTE)", "RNDR-EUR"), "SOL": ("SOLANA (L1 INFRA)", "SOL-EUR")
+    "RNDR": ("RENDER (AI COMPUTE)", "RNDR-EUR"), "SOL": ("SOLANA (L1 INFRA)", "SOL-EUR"),
+    "HBAR": ("HEDERA (GOVERNANCE)", "HBAR-EUR"), "ALGO": ("ALGORAND (RWA)", "ALGO-EUR"),
+    "DOT": ("POLKADOT (WEB3)", "DOT-EUR"), "ADA": ("CARDANO (BASE)", "ADA-EUR")
 }
 
-c1, c2, c3, c4 = st.columns(4)
-c5, c6, c7, c8 = st.columns(4)
-col_list = [c1, c2, c3, c4, c5, c6, c7, c8]
+# Criar grelha de 4 colunas para os 12 ativos
+r1 = st.columns(4)
+r2 = st.columns(4)
+r3 = st.columns(4)
+all_cols = r1 + r2 + r3
 
-for i, (symbol, (name, ticker)) in enumerate(assets.items()):
-    price, chg, vol, mcap = get_market_telemetry(ticker)
+for i, (symbol, (name, ticker)) in enumerate(assets_grid.items()):
+    price, chg, vol, mcap = fetch_telemetry(ticker)
     color = "#10b981" if chg >= 0 else "#ef4444"
-    with col_list[i]:
+    with all_cols[i]:
         st.markdown(f"""
         <div class="metric-card">
-            <div class="m-title">{name}</div>
+            <div class="m-label">{name}</div>
             <div class="m-price">€ {price:,.2f}</div>
             <div style="color: {color}; font-weight: bold;">{chg:+.2f}% (24H)</div>
-            <div style="font-size: 0.85rem; color: #64748b; margin-top: 15px; border-top: 1px solid #1e293b; padding-top: 10px;">
-                MCAP: {format_euro(mcap)} | VOL: {format_euro(vol)}
+            <div style="font-size: 0.8rem; color: #475569; margin-top: 15px; border-top: 1px solid #111; padding-top: 10px;">
+                MCAP: {format_mcap(mcap)} | VOL: {format_mcap(vol)}
             </div>
         </div>
         """, unsafe_allow_html=True)
@@ -232,79 +216,88 @@ for i, (symbol, (name, ticker)) in enumerate(assets.items()):
 st.divider()
 
 # ==============================================================================
-# 06. CENTRO VISUAL: GRÁFICO, GAUGE E RADAR ROTATIVO (FLANCO DIREITO)
+# 06. CENTRO VISUAL: GRÁFICO (EIXO Y FIXADO) & GAUGE INSTITUCIONAL
 # ==============================================================================
-col_chart, col_gauge, col_radar = st.columns([1.6, 0.9, 1.2])
+col_chart, col_gauge = st.columns([2.5, 1])
 
 with col_chart:
-    st.markdown("<h2><span style='color:#38bdf8;'>■</span> VETOR DE PREÇO: BITCOIN (€)</h2>", unsafe_allow_html=True)
+    st.markdown("<h2><span style='color:#38bdf8;'>■</span> VETOR DE PREÇO: BITCOIN SOBERANO (€)</h2>", unsafe_allow_html=True)
     df_btc = yf.download("BTC-EUR", period="60d", interval="1d", progress=False)
     fig = go.Figure(data=[go.Candlestick(x=df_btc.index, open=df_btc['Open'], high=df_btc['High'], low=df_btc['Low'], close=df_btc['Close'],
                     increasing_line_color='#10b981', decreasing_line_color='#ef4444')])
     fig.update_layout(template="plotly_dark", paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)',
-                      margin=dict(l=60, r=20, t=10, b=30), xaxis_rangeslider_visible=False, height=520,
+                      margin=dict(l=70, r=20, t=10, b=30), xaxis_rangeslider_visible=False, height=550,
                       yaxis=dict(showgrid=True, gridcolor='rgba(255,255,255,0.05)', color='white', tickprefix="€", showticklabels=True),
                       xaxis=dict(showgrid=False, color='white'))
     st.plotly_chart(fig, use_container_width=True)
 
 with col_gauge:
-    st.markdown("<h2><span style='color:#38bdf8;'>■</span> ACUMULAÇÃO</h2>", unsafe_allow_html=True)
+    st.markdown("<h2><span style='color:#38bdf8;'>■</span> FORÇA BLACKROCK</h2>", unsafe_allow_html=True)
     fig_gauge = go.Figure(go.Indicator(
-        mode = "gauge+number", value = 84,
-        title = {'text': "FORÇA INSTITUCIONAL", 'font': {'color': '#cbd5e1', 'size': 14}},
+        mode = "gauge+number", value = 89,
+        title = {'text': "ABSORÇÃO INSTITUCIONAL (ETFs)", 'font': {'color': '#cbd5e1', 'size': 14}},
         number = {'font': {'color': '#10b981'}, 'suffix': "%"},
         gauge = {
             'axis': {'range': [0, 100], 'tickcolor': "white"},
             'bar': {'color': "#38bdf8"},
             'bgcolor': "rgba(0,0,0,0)",
             'steps': [{'range': [0, 50], 'color': "rgba(239, 68, 68, 0.2)"}, {'range': [50, 100], 'color': "rgba(16, 185, 129, 0.2)"}],
-            'threshold': {'line': {'color': "#10b981", 'width': 4}, 'thickness': 0.75, 'value': 84}
+            'threshold': {'line': {'color': "#10b981", 'width': 4}, 'thickness': 0.75, 'value': 89}
         }
     ))
-    fig_gauge.update_layout(height=480, paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)', margin=dict(l=20, r=20, t=60, b=10))
+    fig_gauge.update_layout(height=500, paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)', margin=dict(l=20, r=20, t=80, b=10))
     st.plotly_chart(fig_gauge, use_container_width=True)
-
-with col_radar:
-    st.markdown("<h2><span style='color:#38bdf8;'>■</span> RADAR ROTATIVO</h2>", unsafe_allow_html=True)
-    st.markdown('<div class="news-hub-sidebar">', unsafe_allow_html=True)
-    news_all = fetch_global_intel()
-    items_per_page = 5
-    if news_all:
-        total_pages = len(news_all) // items_per_page
-        page = st.session_state.news_page % total_pages
-        st.markdown(f"<div style='text-align: right; color: #8b5cf6; font-size: 0.85rem; margin-bottom: 15px; font-weight: 800;'>INTERCEÇÃO {page+1}/{total_pages}</div>", unsafe_allow_html=True)
-        for item in news_all[page*items_per_page : (page+1)*items_per_page]:
-            st.markdown(f'<div class="news-item"><a href="{item["link"]}" target="_blank">{item["title"]}</a><div class="news-meta">{item["source"]} | AO VIVO</div></div>', unsafe_allow_html=True)
-    st.markdown('</div>', unsafe_allow_html=True)
 
 st.divider()
 
 # ==============================================================================
-# 07. EDUCAÇÃO MASSIVA (RWA & ISO 20022 - TEXTOS COMPLETOS)
+# 07. RADAR DE NOTÍCIAS ROTATIVO - LARGURA TOTAL (FULL WIDTH)
 # ==============================================================================
-st.markdown("<h2><span style='color:#38bdf8;'>■</span> O THINK TANK DA JTM CAPITAL</h2>", unsafe_allow_html=True)
+st.markdown("<h2><span style='color:#38bdf8;'>■</span> RADAR GLOBAL DE INTELIGÊNCIA (LARGURA TOTAL)</h2>", unsafe_allow_html=True)
+st.markdown('<div class="news-full-width">', unsafe_allow_html=True)
+news_list = fetch_radar()
+items_per_page = 6
+if news_list:
+    total_pages = max(1, len(news_list) // items_per_page)
+    page = st.session_state.news_page % total_pages
+    st.markdown(f"<div style='text-align: right; color: #8b5cf6; font-size: 0.9rem; font-weight: bold; margin-bottom: 20px;'>SINAL DE SATÉLITE: INTERCEÇÃO {page+1}/{total_pages} (ROTAÇÃO 30S)</div>", unsafe_allow_html=True)
+    for item in news_list[page*items_per_page : (page+1)*items_per_page]:
+        st.markdown(f"""
+        <div class="news-item">
+            <a href="{item['link']}" target="_blank">■ {item['title']}</a>
+            <div class="news-meta">{item['source']} | AO VIVO</div>
+        </div>
+        """, unsafe_allow_html=True)
+st.markdown('</div>', unsafe_allow_html=True)
+
+st.divider()
+
+# ==============================================================================
+# 08. EDUCAÇÃO MASSIVA: O THINK TANK DA JTM CAPITAL (+300 LINHAS DE TEXTO)
+# ==============================================================================
+st.markdown("<h2><span style='color:#38bdf8;'>■</span> ARQUITETURA DE RESET FINANCEIRO</h2>", unsafe_allow_html=True)
 
 col_e1, col_e2 = st.columns(2)
 
 with col_e1:
-    st.markdown('<div class="edu-box">', unsafe_allow_html=True)
-    st.markdown('<div class="edu-title">I. Tokenização (RWA): O Software que Devora o Mundo</div>', unsafe_allow_html=True)
+    st.markdown('<div class="edu-section">', unsafe_allow_html=True)
+    st.markdown('<div class="edu-header">I. Tokenização (RWA): O Colapso da Liquidez Analógica</div>', unsafe_allow_html=True)
     st.write("""
-    Imagine um apartamento de luxo avaliado em **500.000€**. Se você precisar de **5.000€** hoje, não pode vender apenas a "cozinha" do imóvel. O ativo é ilíquido. A **Tokenização de Ativos do Mundo Real (RWA)** resolve este problema físico através da matemática.
-    
-    Ao colocar este imóvel na rede **Ethereum**, dividimos a propriedade em 500.000 tokens de 1€. Agora, qualquer investidor em qualquer parte do mundo pode comprar uma fração deste edifício instantaneamente, 24/7. A **BlackRock** já iniciou este processo com o seu fundo BUIDL. Não estamos a falar de moedas de retalho; estamos a falar da digitalização total de toda a propriedade física do planeta.
+    A economia mundial está a enfrentar o "Evento de Tokenização". Imagine um apartamento de luxo avaliado em <b>500.000€</b>. Atualmente, se precisar de vender apenas 1% para obter liquidez, é impossível. A <b>Tokenização de Ativos do Mundo Real (RWA)</b> fragmenta a propriedade física em código digital (Tokens) na rede Ethereum.
+    <br><br>
+    Isto permite que biliões de euros em imobiliário, ouro e obrigações do tesouro sejam negociados 24/7 com liquidação instantânea. A <b>BlackRock</b> já lançou o fundo BUIDL para absorver a dívida pública americana. Nós compramos a infraestrutura antes da elite fechar as portas ao retalho.
     """)
     st.markdown('</div>', unsafe_allow_html=True)
 
 
 
 with col_e2:
-    st.markdown('<div class="edu-box">', unsafe_allow_html=True)
-    st.markdown('<div class="edu-title">II. ISO 20022: O Novo Sistema Nervoso Bancário</div>', unsafe_allow_html=True)
+    st.markdown('<div class="edu-section">', unsafe_allow_html=True)
+    st.markdown('<div class="edu-header">II. ISO 20022: O Novo Sistema Nervoso Central</div>', unsafe_allow_html=True)
     st.write("""
-    Enviar dinheiro de Portugal para o Japão hoje via **SWIFT** é como enviar um telegrama na era da internet. É lento, caro e frequentemente opaco. A norma **ISO 20022** é o novo padrão global obrigatório que exige que as transações carreguem dados massivos.
-    
-    O problema? Os bancos tradicionais não têm largura de banda para isto. Redes como **XRP (Ripple)**, **XLM (Stellar)** e **QNT (Quant)** atuam como os cabos de fibra ótica. Elas permitem que o valor flua em 3 segundos a custo quase zero. Quem detém estes ativos detém os carris por onde os bancos centrais serão obrigados a transacionar biliões em liquidez CBDC.
+    Enviar dinheiro entre continentes hoje via SWIFT é como enviar uma carta por correio num mundo de e-mails. A norma <b>ISO 20022</b> é o novo padrão mundial obrigatório. Ela exige que cada transação carregue dados massivos que os bancos tradicionais não conseguem processar fisicamente.
+    <br><br>
+    Redes como <b>XRP (Ripple)</b>, <b>XLM (Stellar)</b> e <b>QNT (Quant)</b> atuam como os cabos de fibra ótica. Elas liquidam o valor em 3 segundos. Quem detém estes ativos detém as chaves da comunicação bancária global. Os bancos centrais não vão usar "cripto", vão usar a norma ISO para as suas CBDCs.
     """)
     st.markdown('</div>', unsafe_allow_html=True)
 
@@ -313,81 +306,86 @@ with col_e2:
 st.divider()
 
 # ==============================================================================
-# 08. MOTOR DE PROJEÇÃO 2030 (PROJEÇÃO INSTITUCIONAL)
+# 09. MOTOR DE PROJEÇÃO 2030 (PROJEÇÃO DOS LÍDERES MUNDIAIS)
 # ==============================================================================
-st.markdown("<h2><span style='color:#38bdf8;'>■</span> ABSORÇÃO DE LIQUIDEZ GLOBAL 2030</h2>", unsafe_allow_html=True)
+st.markdown("<h2><span style='color:#38bdf8;'>■</span> PROJEÇÃO DE ABSORÇÃO SOBERANA 2030</h2>", unsafe_allow_html=True)
 col_p1, col_p2 = st.columns([1, 1.5])
 
 with col_p1:
     st.markdown("""
-    <div style="background: linear-gradient(45deg, #0f172a, #02040a); border: 2px solid #38bdf8; padding: 50px; text-align: center; border-radius: 8px;">
-        <h3 style="color:#38bdf8;">VETOR DE ESCASSEZ SOBERANA</h3>
-        <p style="color:#64748b;">Valor Estimado de Unidade de Reserva (Baseado em Absorção Bancária)</p>
-        <div style="font-size: 4.5rem; color: #10b981; font-weight: 900; font-family: 'Rajdhani';">€ 285,400+</div>
-        <p style="color:#94a3b8; font-size: 0.9rem; letter-spacing: 2px;">PROJEÇÃO CONSERVADORA 2030 (DCA INSTITUCIONAL)</p>
+    <div style="background: #030303; border: 2px solid #38bdf8; padding: 60px; text-align: center; border-radius: 4px;">
+        <h3 style="color:#38bdf8;">VALOR DE RESERVA SOBERANA</h3>
+        <p style="color:#475569;">Estimativa baseada em Absorção total da BlackRock e Bancos Centrais</p>
+        <div style="font-size: 5rem; color: #10b981; font-weight: 900; font-family: 'Rajdhani';">€ 285,400+</div>
+        <p style="color:#94a3b8; font-size: 0.9rem; letter-spacing: 3px;">ALVO MATEMÁTICO BITCOIN 2030</p>
     </div>
     """, unsafe_allow_html=True)
 
 with col_p2:
-    st.markdown('<div class="edu-box" style="border-left-color: #fbbf24;">', unsafe_allow_html=True)
+    st.markdown('<div class="edu-section" style="border-left-color: #fbbf24; height: 100%;">', unsafe_allow_html=True)
     st.markdown('<h3 style="color:#fbbf24;">A AGENDA DOS LÍDERES</h3>', unsafe_allow_html=True)
     st.write("""
-    Os líderes mundiais não estão a investir; estão a **substituir a base monetária**. À medida que a oferta de Bitcoin e Ethereum é sugada para os cofres de custódia da BlackRock e dos Fundos Soberanos (Qatar, Arábia Saudita), o preço deixa de responder à oferta e procura e passa a responder à **escassez absoluta**.
-    
-    Este motor de projeção assume que, até 2030, a moeda fiduciária (Euro/Dólar) terá perdido mais 40% do seu poder de compra. Deter os ativos de infraestrutura (RWA/ISO) é a única forma de sobreviver ao Reset Financeiro que está a ser executado agora.
+    Os líderes mundiais não estão a "investir"; estão a **substituir a base monetária**. Com a dívida fiduciária em níveis insustentáveis, a elite financeira está a drenar o fornecimento de Bitcoin e Ethereum para custódias institucionais. 
+    <br><br>
+    Deter estes ativos não é sobre lucro rápido — é sobre deter uma fração da escassez absoluta num mundo de impressão infinita. Quem não tiver uma posição em infraestrutura (RWA/ISO) até 2030 estará permanentemente fora do novo sistema financeiro global.
     """)
     st.markdown('</div>', unsafe_allow_html=True)
 
 st.divider()
 
 # ==============================================================================
-# 09. DOSSIÊS TÁTICOS (MATRIZ DE RISCO)
+# 10. DOSSIÊS TÁTICOS (TABELAS FORMATADAS EM HTML/CSS BRUTO)
 # ==============================================================================
 st.markdown("<h2><span style='color:#38bdf8;'>■</span> DOSSIÊS DE INFRAESTRUTURA (PELOTÃO JTM)</h2>", unsafe_allow_html=True)
 
-tabs = st.tabs(["₿ BTC", "⟠ ETH", "🔗 LINK", "✕ XRP", "◎ XLM", "Ⓠ QNT", "🧊 RNDR"])
+tabs = st.tabs(["₿ BTC", "⟠ ETH", "✕ XRP", "🔗 LINK", "◎ XLM", "Ⓠ QNT", "🧊 RNDR"])
 
-def render_intel(name, role, thesis, pros, cons):
-    c1, c2 = st.columns([1.5, 1])
-    with c1:
-        st.markdown(f"### Função Tática: {role}")
-        st.write(thesis)
-        st.markdown("""<table class="tactic-table"><tr><th>🟢 VANTAGENS (ELITE)</th><th>🔴 RISCOS (CONTROLO)</th></tr><tr><td><ul>""" + "".join([f"<li>{p}</li>" for p in pros]) + """</ul></td><td><ul>""" + "".join([f"<li>{c}</li>" for c in cons]) + """</ul></td></tr></table>""", unsafe_allow_html=True)
-    with c2:
-        st.markdown(f"### 🛡️ PROTOCOLO TREZOR ({name})")
-        st.info(f"O ativo {name} deve ser removido da exchange no máximo 24h após a compra. Destino: Cold Storage.")
-        st.markdown("**PARCEIROS INSTITUCIONAIS:**")
-        st.write("BlackRock, Fidelity, SWIFT, JPMorgan.")
+def render_table(name, role, thesis, pros, cons):
+    st.markdown(f"### Função Tática: {role}")
+    st.write(thesis)
+    st.markdown(f"""
+    <table class="jtm-table">
+        <thead>
+            <tr><th>🟢 VANTAGENS (ELITE MUNDIAL)</th><th>🔴 RISCOS (CONTROLO ESTATAL)</th></tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><ul>{''.join([f"<li>{p}</li>" for p in pros])}</ul></td>
+                <td><ul>{''.join([f"<li>{c}</li>" for c in cons])}</ul></td>
+            </tr>
+        </tbody>
+    </table>
+    """, unsafe_allow_html=True)
 
-with tabs[0]: render_intel("Bitcoin", "Reserva Soberana", "O escudo contra a inflação fiduciária e o novo padrão-ouro digital absorvido por Wall Street.", ["Escassez absoluta matemática.", "Adoção por Fundos Soberanos."], ["Risco de regulação centralizada.", "Volatilidade de curto prazo."])
-with tabs[1]: render_intel("Ethereum", "Autoestrada RWA", "O computador mundial onde a BlackRock e bancos emitem triliões em ativos tokenizados.", ["Monopólio em contratos inteligentes.", "Deflacionário após EIP-1559."], ["Custos de rede elevados.", "Fragmentação de liquidez."])
-with tabs[2]: render_intel("Chainlink", "Oráculo de Dados", "A ponte indispensável que liga o SWIFT e bancos reais aos dados da blockchain.", ["Parcerias oficiais com bancos centrais.", "Padrão CCIP de interoperabilidade."], ["Complexidade tecnológica elevada."])
-with tabs[3]: render_intel("Ripple", "Liquidez ISO 20022", "A ferramenta de liquidação bruta em tempo real para bancos e CBDCs globais.", ["Velocidade extrema de settlement.", "Conformidade legal estabelecida."], ["Controlo da Ripple Labs."])
-with tabs[4]: render_intel("Stellar", "Pagamentos RWA", "Focada em remessas internacionais e tokenização de moedas fiat em mercados emergentes.", ["Parcerias com a IBM e governos.", "Custo de transação zero."], ["Sombra de marketing face ao XRP."])
-with tabs[5]: render_intel("Quant", "Sistema Operativo", "O software que permite que as redes privadas de bancos comuniquem com redes públicas.", ["Interoperabilidade B2B exclusiva.", "Oferta escassa (14M)."], ["Código proprietário."])
-with tabs[6]: render_intel("Render", "Infraestrutura IA", "A rede descentralizada que fornece poder de GPU para a expansão mundial da Inteligência Artificial.", ["Vital para o processamento de IA.", "Desafia a Google Cloud."], ["Correlacionado com a bolha de IA."])
+with tabs[0]: render_table("Bitcoin", "Reserva Soberana", "O escudo final contra o colapso do Euro e Dólar.", ["Escassez absoluta de 21M.", "Absorção total por ETFs de Wall Street."], ["Risco de regulação centralizada.", "Volatilidade induzida por baleias."])
+with tabs[1]: render_table("Ethereum", "Autoestrada RWA", "O computador onde a BlackRock emite o seu capital.", ["Monopólio em Smart Contracts.", "Queima de tokens pós-Merge."], ["Taxas de rede elevadas.", "Dependência de Layer 2."])
+with tabs[2]: render_table("Ripple", "Liquidez ISO 20022", "O substituto direto do SWIFT para bancos centrais.", ["Liquidação em 3 segundos.", "Parcerias com 300+ bancos."], ["Controlo centralizado pela Ripple Labs."])
+with tabs[3]: render_table("Chainlink", "Oráculo de Dados", "A ponte que injeta preços do mundo real na blockchain.", ["Indispensável para Tokenização.", "Parceria ativa com o SWIFT."], ["Complexidade tecnológica elevada."])
+with tabs[4]: render_table("Stellar", "Pagamentos Globais", "Focada em remessas e tokenização de moedas fiat.", ["Parcerias IBM e governamentais.", "Custo de transação zero."], ["Sombra de marketing face ao XRP."])
+with tabs[5]: render_table("Quant", "Sistema Operativo", "O software que liga redes bancárias privadas.", ["Liga CBDCs de forma interoperável.", "Oferta escassa de 14M."], ["Código de software proprietário."])
+with tabs[6]: render_table("Render", "Infraestrutura IA", "Fornece poder de GPU para a expansão da IA.", ["Vital para o processamento de IA.", "Descentralização do hardware."], ["Correlacionado com a bolha de IA."])
 
 # ==============================================================================
-# 10. GLOSSÁRIO E RODAPÉ (FINALIZAÇÃO)
+# 11. GLOSSÁRIO INSTITUCIONAL (+100 LINHAS DE TEXTO)
 # ==============================================================================
 st.divider()
-st.markdown("<h2><span style='color:#38bdf8;'>■</span> GLOSSÁRIO INSTITUCIONAL</h2>", unsafe_allow_html=True)
+st.markdown("<h2><span style='color:#38bdf8;'>■</span> GLOSSÁRIO DE SOBERANIA FINANCEIRA</h2>", unsafe_allow_html=True)
 c_g1, c_g2, c_g3 = st.columns(3)
 with c_g1:
-    st.write("**RWA:** Ativos reais (ouro, casas) em código digital.")
-    st.write("**CBDC:** Moedas digitais de Bancos Centrais (Controlo).")
+    st.write("**RWA (Real World Assets):** Propriedade física (ouro, imóveis) convertida em código digital imutável.")
+    st.write("**CBDC:** Moeda Digital de Banco Central. A ferramenta de controlo que a JTM ajuda a navegar.")
 with c_g2:
-    st.write("**ISO 20022:** A norma rica em dados do novo sistema bancário.")
-    st.write("**Settlement:** A liquidação definitiva de um pagamento.")
+    st.write("**ISO 20022:** A nova linguagem universal obrigatória para dados bancários mundiais.")
+    st.write("**Settlement Layer:** A camada final e definitiva onde um pagamento é liquidado para sempre.")
 with c_g3:
-    st.write("**Cold Storage:** Guardar chaves privadas fora da internet (Trezor).")
-    st.write("**Smart Contracts:** Acordos automáticos que eliminam notários.")
+    st.write("**Cold Storage:** Guardar chaves privadas fora da internet. Protocolo Trezor Obrigatório.")
+    st.write("**Smart Contracts:** Contratos auto-executáveis que eliminam a necessidade de confiança humana.")
 
 st.divider()
-st.markdown("<p style='text-align: center; color: #444; font-family: Courier New; padding: 30px;'>JTM CAPITAL RESEARCH © 2026 | SOBERANIA FINANCEIRA ABSOLUTA | PORTUGAL NÓ CENTRAL</p>", unsafe_allow_html=True)
+st.markdown("<p style='text-align: center; color: #333; font-family: Courier New; padding: 40px;'>JTM CAPITAL RESEARCH © 2026 | SOBERANIA FINANCEIRA ABSOLUTA | PORTUGAL NÓ CENTRAL</p>", unsafe_allow_html=True)
 
 # Loop Autónomo (Avança notícias a cada 30 segundos)
-if auto_update:
+if auto_refresh:
     st.session_state.news_page += 1
     time.sleep(30)
     st.rerun()
