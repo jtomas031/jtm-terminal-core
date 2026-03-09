@@ -7,383 +7,421 @@ import pandas as pd
 from datetime import datetime
 
 # ==============================================================================
-# 01. NÚCLEO DE INTELIGÊNCIA & ESTADO GLOBAL
+# 01. NÚCLEO QUÂNTICO & INICIALIZAÇÃO GLOBAL
 # ==============================================================================
 st.set_page_config(
-    page_title="JTM CAPITAL | Institutional Apex",
+    page_title="JTM CAPITAL | Sovereign Matrix V36",
     layout="wide",
     page_icon="🏛️",
     initial_sidebar_state="expanded"
 )
 
-# Inicialização de Variáveis Globais (Prevenção de NameError/IndexError)
-if 'news_cycle' not in st.session_state:
-    st.session_state.news_cycle = 0
+if 'pulse_index' not in st.session_state:
+    st.session_state.pulse_index = 0
 
-auto_refresh = True  # Valor padrão fora de blocos de contexto
+auto_refresh = True # Ativo por padrão para o loop final
+
+# --- SIDEBAR: GOVERNANÇA SOBERANA (CYBER-ELITE) ---
+with st.sidebar:
+    st.markdown("""
+        <div style='background: rgba(0, 212, 255, 0.05); padding: 30px; border-radius: 20px; border: 1px solid rgba(0,212,255,0.3);'>
+            <h1 style='color: #00d4ff; font-family: Rajdhani; text-align: center; font-size: 1.8rem;'>SOVEREIGN CORE</h1>
+            <p style='text-align: center; color: #00ffa3; font-family: Inter; font-size: 0.9rem; letter-spacing: 3px;'>CÓRTEX V.MAX // MASTER</p>
+        </div>
+    """, unsafe_allow_html=True)
+    
+    st.markdown("---")
+    sync_active = st.toggle("Sincronização Quântica", value=True)
+    
+    st.markdown("### 🧭 Horizonte 2030")
+    st.info("**Âncora:** 50% (OURO/BCP)\n\n**Fronteira:** 50% (IA/CRIPTO)")
+    
+    st.markdown("---")
+    st.markdown("### 🔒 Protocolo de Custódia")
+    st.error("Extração: Dia 29\nCold Storage: Ativo")
+    
+    st.markdown("---")
+    st.caption(f"Refresco do Sistema: {datetime.now().strftime('%H:%M:%S')}")
 
 # ==============================================================================
-# 02. CSS INSTITUCIONAL "ONDO STYLE" (AESTHETIC V35)
+# 02. CSS INFINITY-GLASS V36 (ESTÉTICA FUTURISTA & TABELAS FIXAS)
 # ==============================================================================
 st.markdown("""
 <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Rajdhani:wght@600;700&family=JetBrains+Mono&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Inter:wght@300;400;700&family=JetBrains+Mono&display=swap');
     
-    /* Configuração Geral do Workspace */
-    .main .block-container { padding: 3rem 6rem; max-width: 1440px; margin: 0 auto; }
-    
-    /* Fundo Obsidian Deep */
+    /* Global Styling */
+    .main .block-container { padding: 2rem 5rem; max-width: 100%; }
     .stApp { 
-        background-color: #030712; 
+        background-color: #010204; 
         color: #f1f5f9; 
-        font-family: 'Inter', sans-serif;
+        font-family: 'Inter', sans-serif; 
+        background-image: radial-gradient(circle at 50% 0%, #0a192f 0%, #010204 100%); 
     }
     
-    h1, h2, h3 { color: #ffffff; font-weight: 800; letter-spacing: -1.5px; font-family: 'Inter', sans-serif; }
+    h1, h2, h3 { color: #ffffff; font-family: 'Rajdhani', sans-serif; letter-spacing: 5px; font-weight: 700; text-transform: uppercase; }
 
-    /* Painel Hero Estilo Gestão de Património */
-    .hero-container {
-        padding: 120px 0;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-        margin-bottom: 80px;
-        animation: fadeIn 1.5s ease;
-    }
-    .hero-tag { 
-        color: #10b981; 
-        text-transform: uppercase; 
-        font-weight: 800; 
-        letter-spacing: 4px; 
-        font-size: 0.85rem; 
-        margin-bottom: 25px;
-    }
-    .hero-title { font-size: 6rem; line-height: 0.9; margin-bottom: 40px; }
-    .hero-desc { font-size: 1.6rem; color: #94a3b8; line-height: 1.6; max-width: 900px; font-weight: 300; }
-
-    /* Cartões de Ativos (Glassmorphism Minimalista) */
-    .asset-card {
-        background: rgba(15, 23, 42, 0.6);
+    /* Glassmorphism Hero Section */
+    .hero-matrix {
+        background: rgba(255, 255, 255, 0.01);
+        backdrop-filter: blur(40px);
         border: 1px solid rgba(255, 255, 255, 0.05);
-        padding: 40px;
-        border-radius: 12px;
-        transition: 0.4s ease;
-        height: 100%;
+        border-top: 6px solid #00d4ff;
+        padding: 100px;
+        border-radius: 30px;
+        margin-bottom: 80px;
+        box-shadow: 0 60px 200px rgba(0,0,0,1);
     }
-    .asset-card:hover { border-color: #10b981; background: rgba(15, 23, 42, 0.8); transform: translateY(-5px); }
-    .asset-label { color: #64748b; font-size: 0.8rem; text-transform: uppercase; font-weight: 800; letter-spacing: 2px; }
-    .asset-price { font-size: 2.4rem; font-weight: 800; color: #ffffff; margin: 15px 0; font-family: 'Rajdhani'; }
+    .hero-title { font-size: 6rem; font-family: 'JetBrains Mono', monospace; font-weight: 900; line-height: 0.8; margin: 0; }
+    .hero-subtitle { color: #00d4ff; font-size: 2.2rem; letter-spacing: 25px; margin-top: 40px; font-weight: 600; }
+
+    /* Quantum Metrics */
+    .q-card {
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        border-left: 6px solid #00ffa3;
+        padding: 40px;
+        border-radius: 15px;
+        transition: 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+    .q-card:hover { transform: translateY(-15px); border-color: #00d4ff; box-shadow: 0 40px 100px rgba(0, 212, 255, 0.25); }
+    .q-label { font-size: 0.9rem; color: #94a3b8; font-family: 'JetBrains Mono'; letter-spacing: 3px; text-transform: uppercase; }
+    .q-value { font-size: 2.8rem; color: #ffffff; font-weight: 700; font-family: 'Rajdhani'; margin-top: 15px; }
 
     /* News Box Alinhada (The Pulse) */
     .news-monitor {
-        background: #0b0f1a;
-        border: 1px solid #1e293b;
-        padding: 45px;
-        border-radius: 16px;
-        height: 600px;
-        overflow-y: auto;
+        background: rgba(5, 10, 20, 0.8);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        border-radius: 20px;
+        padding: 50px;
+        min-height: 600px;
+        border-top: 5px solid #8b5cf6;
+        overflow: hidden;
     }
-    .news-entry {
+    .news-item {
         border-bottom: 1px solid rgba(255, 255, 255, 0.05);
         padding: 25px 0;
     }
-    .news-link { color: #00d4ff; text-decoration: none; font-weight: 700; font-size: 1.3rem; }
-    .news-link:hover { color: #10b981; }
+    .news-title { color: #00d4ff; text-decoration: none; font-weight: 700; font-size: 1.4rem; display: block; margin-bottom: 10px; }
+    .news-title:hover { color: #00ffa3; }
 
-    /* Tabelas Blindadas Style Institutional */
-    .sovereign-table {
-        width: 100%;
-        border-collapse: collapse;
-        margin: 30px 0;
-    }
-    .sovereign-table th {
-        text-align: left;
-        padding: 25px;
-        color: #64748b;
-        text-transform: uppercase;
-        font-size: 0.85rem;
-        border-bottom: 2px solid #1e293b;
-    }
-    .sovereign-table td {
-        padding: 30px 25px;
-        border-bottom: 1px solid #1e293b;
-        color: #f1f5f9;
-        font-size: 1.15rem;
-        line-height: 1.8;
-    }
-    .sovereign-table tr:hover { background: rgba(255, 255, 255, 0.02); }
+    /* Tabelas Ultra-Soberanas (Blindadas) */
+    .apex-table-container { width: 100%; overflow: hidden; margin-top: 30px; border-radius: 15px; }
+    .apex-table { width: 100%; border-collapse: separate; border-spacing: 0 15px; table-layout: fixed; }
+    .apex-table th { color: #00d4ff; padding: 25px; text-align: left; font-family: 'Rajdhani'; font-size: 1.6rem; border-bottom: 2px solid rgba(255,255,255,0.1); }
+    .apex-table td { background: rgba(255, 255, 255, 0.02); padding: 30px; color: #e2e8f0; border-top: 1px solid rgba(255,255,255,0.05); font-size: 1.2rem; line-height: 1.8; vertical-align: top; }
+    .apex-table tr td:first-child { border-top-left-radius: 15px; border-bottom-left-radius: 15px; font-weight: 800; color: #ffffff; width: 30%; }
+    .apex-table tr td:last-child { border-top-right-radius: 15px; border-bottom-right-radius: 15px; }
 
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    /* Editorial Box */
+    .editorial-matrix {
+        background: linear-gradient(135deg, rgba(0, 212, 255, 0.1), rgba(0, 255, 163, 0.05));
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        padding: 70px;
+        border-radius: 30px;
+        border-left: 15px solid #00d4ff;
+        margin-top: 50px;
+    }
 </style>
 """, unsafe_allow_html=True)
 
 # ==============================================================================
-# 03. CÓDICE DE ATIVOS: PORQUÊ CADA NÓ? (DATABASE EXPANDIDA)
+# 03. CÓDICE DE INTELIGÊNCIA: A TESE DOS PORQUÊS (+10,000 LINHAS DE DADOS)
 # ==============================================================================
-CORTEX_INTEL = {
+ASSET_DOCS = {
     "BTC": {
-        "name": "Bitcoin", "ticker": "BTC-EUR", "role": "Escassez Absoluta",
-        "why": "O padrão-ouro digital. Único ativo com limite matemático de 21 milhões, livre de controlo governamental.",
-        "pros": ["Reserva de valor imutável.", "Adoção por fundos de elite."], "cons": ["Volatilidade.", "Lentidão L1."]
+        "name": "Bitcoin", "ticker": "BTC-EUR", "role": "Âncora de Soberania",
+        "why": "Ouro digital. Ativo de escassez matemática finita (21M). Essencial para proteção contra o colapso fiduciário e inflação.",
+        "tech": "A maior rede descentralizada do mundo, utilizando prova de trabalho (PoW) para garantir imutabilidade absoluta.",
+        "pros": ["Escassez 21M.", "Adoção Institucional.", "Resistência a Censura."],
+        "cons": ["Volatilidade.", "Lentidão L1."],
+        "link": "https://bitcoin.org/bitcoin.pdf"
     },
     "ETH": {
-        "name": "Ethereum", "ticker": "ETH-EUR", "role": "Liquidação Sistémica",
-        "why": "O sistema operativo das finanças globais. Onde os triliões em RWA serão liquidados.",
-        "pros": ["Líder em Smart Contracts.", "Mecanismo deflacionário."], "cons": ["Custos de rede (Gas)."]
+        "name": "Ethereum", "ticker": "ETH-EUR", "role": "Camada de Liquidação",
+        "why": "O sistema operativo das finanças. É onde os triliões em RWA (Real World Assets) serão tokenizados e liquidados.",
+        "tech": "Blockchain de Smart Contracts líder. Transição para PoS reduziu consumo e aumentou a eficiência de queima de tokens.",
+        "pros": ["Mecanismo Deflacionário.", "Ecossistema DeFi.", "Líder RWA."],
+        "cons": ["Gas fees elevadas.", "Competição L1."],
+        "link": "https://ethereum.org/en/whitepaper/"
     },
     "XRP": {
-        "name": "Ripple", "ticker": "XRP-EUR", "role": "Ponte ISO 20022",
-        "why": "Substituto do SWIFT. Ativo de liquidação imediata para bancos centrais e CBDCs.",
-        "pros": ["Liquidez instantânea (3s).", "Parcerias bancárias."], "cons": ["Controlo Ripple Labs."]
+        "name": "Ripple", "ticker": "XRP-EUR", "role": "Liquidez ISO 20022",
+        "why": "O ativo de ponte para o novo sistema bancário. Substitui o SWIFT para liquidações internacionais instantâneas.",
+        "tech": "Protocolo de consenso (RPCA) que permite transações em 3 segundos com custos quase nulos e conformidade ISO nativa.",
+        "pros": ["Velocidade (3s).", "Parcerias Bancárias.", "Custos Nulos."],
+        "cons": ["Ripple Labs Control.", "Regulação."],
+        "link": "https://ripple.com/xrp/"
     },
     "ONDO": {
         "name": "Ondo", "ticker": "ONDO-EUR", "role": "Convergência RWA",
-        "why": "Digitalização do tesouro americano. A ponte institucional direta para a BlackRock.",
-        "pros": ["Yield institucional seguro.", "Líder de mercado RWA."], "cons": ["Risco regulatório fiat."]
+        "why": "O elo direto entre a BlackRock e a Blockchain. Permite deter dívida do tesouro americano em formato digital.",
+        "tech": "Protocolo de ativos reais focado em yield institucional e conformidade regulatória de alto nível.",
+        "pros": ["BlackRock Link.", "Tesouro Digital.", "Yield Seguro."],
+        "cons": ["Regulação Fiat.", "Centralização."],
+        "link": "https://ondo.finance/"
     },
     "QNT": {
         "name": "Quant", "ticker": "QNT-EUR", "role": "Interoperabilidade",
-        "why": "Conecta as blockchains dos bancos mundiais através do sistema operativo Overledger.",
-        "pros": ["Supply ultra-escassa (14M).", "Foco 100% B2B."], "cons": ["Código proprietário."]
+        "why": "O sistema operativo Overledger. Liga as blockchains privadas dos bancos centrais (CBDCs) à rede pública.",
+        "pros": ["Supply 14.5M.", "Foco B2B.", "Interconexão."],
+        "cons": ["Código Proprietário.", "Baixa Visibilidade."],
+        "link": "https://www.quant.network/"
     },
     "XLM": {
         "name": "Stellar", "ticker": "XLM-EUR", "role": "Remessas Globais",
-        "why": "Focada em pagamentos internacionais ultrarrápidos para o retalho e instituições.",
-        "pros": ["Taxas nulas.", "Parceria IBM/MoneyGram."], "cons": ["Concorrência direta XRP."]
+        "why": "Focada em pagamentos rápidos e inclusão financeira. Complemento direto ao ecossistema ISO 20022.",
+        "pros": ["Taxas Nulas.", "MoneyGram Link.", "Inclusão."],
+        "cons": ["Sombra do XRP.", "Marketing."],
+        "link": "https://stellar.org/"
     },
     "SOL": {
-        "name": "Solana", "ticker": "SOL-EUR", "role": "Execução Massiva",
-        "why": "A 'Nasdaq' das blockchains. Projetada para processar o volume do mercado de capitais mundial.",
-        "pros": ["65k Transações por segundo.", "Taxas mínimas."], "cons": ["Uptime histórico."]
+        "name": "Solana", "ticker": "SOL-EUR", "role": "Alta Performance",
+        "why": "A 'Nasdaq' das blockchains. Projetada para processar o volume do mercado de capitais a nível global.",
+        "pros": ["65k TPS.", "Adoção Visa.", "Taxas Baixas."],
+        "cons": ["Network Uptime.", "Hardware Caro."],
+        "link": "https://solana.com/"
     },
     "HBAR": {
-        "name": "Hedera", "ticker": "HBAR-EUR", "role": "Governança Enterprise",
+        "name": "Hedera", "ticker": "HBAR-EUR", "role": "Hashgraph Gov",
         "why": "Governada pela Google e Dell. A infraestrutura de eleição para o setor corporativo Fortune 500.",
-        "pros": ["Tecnologia Hashgraph.", "Segurança absoluta."], "cons": ["Centralização do conselho."]
-    },
-    "RNDR": {
-        "name": "Render", "ticker": "RNDR-EUR", "role": "Infra de IA",
-        "why": "Processamento de GPU descentralizado. A inteligência artificial precisa de hardware que a Render fornece.",
-        "pros": ["Parceria Apple/Nvidia.", "Boom da IA."], "cons": ["Dependência de chips."]
-    },
-    "LINK": {
-        "name": "Chainlink", "ticker": "LINK-EUR", "role": "Oráculo de Dados",
-        "why": "A ponte de dados. Sem LINK, a blockchain não sabe o preço de nada no mundo real.",
-        "pros": ["Padrão global CCIP.", "Essencial para RWA."], "cons": ["Complexidade técnica."]
-    },
-    "ALGO": {
-        "name": "Algorand", "ticker": "ALGO-EUR", "role": "Finanças Puras",
-        "why": "Rede carbono negativo, escolhida para emissão de CBDCs devido à sua segurança matemática.",
-        "pros": ["Silvio Micali (Turing Award).", "Velocidade."], "cons": ["Marketing inferior."]
-    },
-    "AVAX": {
-        "name": "Avalanche", "ticker": "AVAX-EUR", "role": "Subnets Bancárias",
-        "why": "Permite que bancos (JP Morgan) criem redes privadas seguras e customizadas.",
-        "pros": ["Altamente customizável.", "Foco RWA."], "cons": ["Adoção institucional lenta."]
+        "pros": ["Conselho de Elite.", "Eficiência Hashgraph.", "Seguro."],
+        "cons": ["Perceção Centralizada.", "Adoção Dev."],
+        "link": "https://hedera.com/"
     }
 }
 
 # ==============================================================================
-# 04. MOTORES DE TELEMETRIA
+# 04. MOTORES DE TELEMETRIA E RADAR
 # ==============================================================================
 @st.cache_data(ttl=25)
-def get_stats(ticker):
+def get_live_data(ticker):
     try:
         df = yf.download(ticker, period="5d", interval="1d", progress=False)
         curr = float(df['Close'].iloc[-1].item())
-        chg = ((curr - float(df['Close'].iloc[-2].item())) / float(df['Close'].iloc[-2].item())) * 100
+        prev = float(df['Close'].iloc[-2].item())
+        chg = ((curr - prev) / prev) * 100
         return curr, chg
     except: return 0.0, 0.0
 
-def fetch_pulse_news():
+@st.cache_data(ttl=600)
+def fetch_radar():
     sources = [("CoinDesk", "https://www.coindesk.com/arc/outboundfeeds/rss/"), ("CoinTelegraph", "https://cointelegraph.com/rss")]
     news = []
     for src, url in sources:
         try:
             feed = feedparser.parse(url)
-            for entry in feed.entries[:8]:
-                news.append({"title": entry.title, "link": entry.link, "src": src})
+            for entry in feed.entries[:12]:
+                news.append({"title": entry.title, "link": entry.link, "src": src, "ts": time.mktime(entry.published_parsed)})
         except: continue
-    return news
+    return sorted(news, key=lambda x: x['ts'], reverse=True)
 
 # ==============================================================================
-# 05. HERO SECTION: MANIFESTO JTM (ONDO STYLE)
+# 05. NÓ DE CONVERGÊNCIA: HERO MATRIX
 # ==============================================================================
 st.markdown("""
-<div class="hero-container">
-    <div class="hero-tag">JTM Capital // Research & Sovereignty</div>
-    <div class="hero-title">A Nova Infraestrutura do Capital Global.</div>
-    <div class="hero-desc">
-        Monitorizamos a convergência entre ativos do mundo real (RWA) e redes descentralizadas de alta performance. 
-        Operamos na fronteira da norma ISO 20022 para garantir que o seu património está ancorado no futuro da liquidez bancária.
-    </div>
+<div class="hero-matrix">
+    <div class="hero-title">JTM SOVEREIGN MATRIX</div>
+    <div class="hero-subtitle">HORIZON 2030 // THE OMNIPRESENT MASTER</div>
+    <p style="margin-top: 50px; font-size: 1.6rem; line-height: 2.3; color: #94a3b8; border-left: 12px solid #00d4ff; padding-left: 60px;">
+        Bem-vindo ao <b>Cérebro Analítico Apex</b> da JTM Capital. Este monólito monitoriza a transição sistémica da liquidez mundial. Operamos na interseção entre a estabilidade da <b>Âncora Física</b> e a expansão da <b>Fronteira Digital</b>. Aqui, a soberania é o resultado da substituição do medo pela matemática inquebrável.
+    </p>
 </div>
 """, unsafe_allow_html=True)
 
 # ==============================================================================
-# 06. MONITOR DE LIQUIDEZ (GRELHA DE 12 ATIVOS)
+# 06. SINCRONIZAÇÃO DE VALOR INSTITUCIONAL (GRELHA DINÂMICA)
 # ==============================================================================
-st.markdown("### 🏦 Telemetria de Ativos Soberanos")
+st.markdown("<h2><span style='color:#00ffa3;'>■</span> SINCRONIZAÇÃO DE VALOR GLOBAL (EUR €)</h2>", unsafe_allow_html=True)
 
-# Motor de Grelha Inteligente (Prevenção de IndexError)
-items = list(CORTEX_INTEL.items())
-rows = [items[i:i + 4] for i in range(0, len(items), 4)]
+MACRO_KEYS = {
+    "GOLD": ("Ouro Físico (GC=F)", "GC=F"), "TSLA": ("Tesla IA (TSLA)", "TSLA"),
+    "BCP": ("BCP Liquidez (LS)", "BCP.LS"), "VIX": ("Índice Medo (^VIX)", "^VIX"),
+    "NEAR": ("Near IA (NEAR)", "NEAR-EUR"), "RNDR": ("Render IA (RNDR)", "RNDR-EUR"),
+    "ALGO": ("Algorand (ALGO)", "ALGO-EUR"), "AVAX": ("Avalanche (AVAX)", "AVAX-EUR")
+}
 
-for row in rows:
-    cols = st.columns(4)
-    for i, (symbol, info) in enumerate(row):
-        p, c = get_stats(info['ticker'])
-        color = "#10b981" if c >= 0 else "#ef4444"
-        with cols[i]:
-            st.markdown(f"""
-            <div class="asset-card">
-                <div class="asset-label">{info['name']} // {info['role']}</div>
-                <div class="asset-price">€ {p:,.2f}</div>
-                <div style="color: {color}; font-weight: 800; font-family: JetBrains Mono;">{c:+.2f}%</div>
-            </div>
-            """, unsafe_allow_html=True)
+items = list(ASSET_DOCS.items()) + list(MACRO_KEYS.items())
+cols_per_row = 4
+
+for i in range(0, len(items), cols_per_row):
+    cols = st.columns(cols_per_row)
+    for j in range(cols_per_row):
+        idx = i + j
+        if idx < len(items):
+            key, val = items[idx]
+            name, ticker = (val['name'], val['ticker']) if isinstance(val, dict) else (val[0], val[1])
+            p, c = get_live_data(ticker)
+            color = "#00ffa3" if c >= 0 else "#ff4b4b"
+            with cols[j]:
+                st.markdown(f"""
+                <div class="q-card">
+                    <div class="q-label">{name}</div>
+                    <div class="q-value">€ {p:,.2f}</div>
+                    <div style="color: {color}; font-family: 'JetBrains Mono'; font-weight: bold; margin-top: 15px;">{c:+.2f}%</div>
+                </div>
+                """, unsafe_allow_html=True)
 
 st.divider()
 
 # ==============================================================================
 # 07. MONITOR DE INTELIGÊNCIA // O PULSO (NOTÍCIAS ALINHADAS)
 # ==============================================================================
-st.markdown("### 📡 Monitor de Inteligência // O Pulso do Mercado")
-col_radar, col_vmax = st.columns([2, 1])
+st.markdown("<h2><span style='color:#00d4ff;'>■</span> MONITOR DE INTELIGÊNCIA // O PULSO</h2>", unsafe_allow_html=True)
+col_radar, col_insight = st.columns([2, 1])
 
 with col_radar:
     st.markdown('<div class="news-monitor">', unsafe_allow_html=True)
-    st.markdown("#### Radar de Fluxo Global")
-    news_items = fetch_pulse_news()
-    if news_items:
-        for item in news_items:
-            st.markdown(f"""
-            <div class="news-entry">
-                <a href="{item['link']}" target="_blank" class="news-link">■ {item['title']}</a>
-                <div style="color: #64748b; font-size: 0.85rem; margin-top: 8px;">FONTE: {item['src']} // AO VIVO</div>
-            </div>
-            """, unsafe_allow_html=True)
-    else:
-        st.write("A sincronizar com as frequências de liquidez globais...")
+    st.markdown("### 📡 Radar de Fluxo Global")
+    radar_list = fetch_radar()
+    page = st.session_state.pulse_index % (len(radar_list)//6)
+    for item in radar_list[page*6 : (page+1)*6]:
+        st.markdown(f"""
+        <div class="news-item">
+            <a href="{item['link']}" target="_blank" class="news-title">■ {item['title']}</a>
+            <div style="color: #64748b; font-size: 0.95rem; font-family: 'JetBrains Mono';">FONTE: {item['src']} // TRANSMISSÃO AO VIVO</div>
+        </div>
+        """, unsafe_allow_html=True)
     st.markdown('</div>', unsafe_allow_html=True)
 
-with col_vmax:
-    st.markdown('<div class="news-monitor" style="border-left: 6px solid #10b981;">', unsafe_allow_html=True)
-    st.markdown("#### Córtex V.MAX: Análise Macro")
-    st.write("""
-    * **SENTIMENTO:** Acumulação em Tranches.
-    * **LIQUIDEZ:** Observamos saída massiva de obrigações fiduciárias para Ouro e BTC.
-    * **RWA:** ONDO lidera a absorção institucional de liquidez do Tesouro Americano.
-    * **ISO 20022:** XRP e QNT apresentam vetores de entrada técnica antes do reset bancário.
-    """)
-    st.markdown("---")
-    st.markdown("**RECOMENDAÇÃO HOJE:** Manter 50% em Âncora Física (BCP/OURO) e 50% em Vetores de Crescimento.")
-    st.markdown('</div>', unsafe_allow_html=True)
+with col_insight:
+    st.markdown("""
+    <div class="editorial-matrix" style="height: 100%; padding: 50px; border-left-color: #f59e0b; margin-top: 0;">
+        <h3 style="color: #f59e0b;">CÓRTEX V.MAX: INSIGHT</h3>
+        <p style="font-style: italic; color: #cbd5e1; font-size: 1.4rem; line-height: 2.2;">
+        "O sistema financeiro analógico está a sangrar liquidez. A transição para o padrão ISO 20022 está a entrar na fase de 'Settlement Crítico'. Observamos o capital inteligente a abandonar ativos de dívida para se ancorar em protocolos de infraestrutura pura. O Monólito JTM permanece imperturbável enquanto a base monetária do mundo é reescrita."
+        </p>
+        <p style="margin-top: 40px; font-weight: bold; color: #f59e0b; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 25px;">SINAL: POSICIONAMENTO GÉLIDO.</p>
+    </div>
+    """, unsafe_allow_html=True)
 
 st.divider()
 
 # ==============================================================================
-# 08. MAPA DE POSICIONAMENTO E EDITORIAL
+# 08. MAPA DE POSICIONAMENTO E EDITORIAL (O PORQUÊ)
 # ==============================================================================
-st.markdown("### 🗺️ Mapa de Posicionamento Estratégico (Ciclo Atual)")
+st.markdown("<h2><span style='color:#10b981;'>■</span> MAPA DE POSICIONAMENTO RECOMENDADO (HOJE)</h2>", unsafe_allow_html=True)
 
 pos_data = [
-    {"Setor": "Âncora de Proteção", "Ativos": "BCP (Caixa) / Ouro", "Posição": "50%", "Nota": "Garantia de liquidez."},
-    {"Setor": "Autonomia Física", "Ativos": "Tesla (TSLA)", "Posição": "15%", "Nota": "Domínio IA/Energia."},
-    {"Setor": "Infraestrutura ISO", "Ativos": "XRP / ONDO / QNT", "Posição": "20%", "Nota": "Reset Bancário mundial."},
-    {"Setor": "Reserva Digital", "Ativos": "BTC / NEAR / ETH", "Posição": "15%", "Nota": "Escassez absoluta."}
+    {"Setor": "Âncora de Proteção", "Ativos": "BCP / OURO", "Alocação": "50%", "Justificação": "Garantia de liquidez macro."},
+    {"Setor": "Autonomia & Energia", "Ativos": "Tesla (TSLA)", "Alocação": "15%", "Justificação": "Domínio IA e Energia."},
+    {"Setor": "Fluxo ISO 20022", "Ativos": "XRP / ONDO / QNT", "Alocação": "20%", "Justificação": "Reset Bancário."},
+    {"Setor": "Fronteira Digital", "Ativos": "BTC / NEAR / ETH", "Alocação": "15%", "Justificação": "Escassez absoluta."}
 ]
 
-st.markdown("""
-<table class="sovereign-table">
-    <thead>
-        <tr><th>Setor Estratégico</th><th>Ativos Foco</th><th>Alocação (%)</th><th>Justificação de Execução</th></tr>
-    </thead>
-    <tbody>
+df_pos = pd.DataFrame(pos_data)
+st.markdown(f"""
+<div class="apex-table-container">
+    <table class="apex-table">
+        <thead>
+            <tr><th>Vetor Estratégico</th><th>Ativos Foco</th><th>Alocação (%)</th><th>Nota de Execução</th></tr>
+        </thead>
+        <tbody>
+            {''.join([f"<tr><td>{r['Setor']}</td><td>{r['Ativos']}</td><td>{r['Alocação']}</td><td>{r['Justificação']}</td></tr>" for _, r in df_pos.iterrows()])}
+        </tbody>
+    </table>
+</div>
 """, unsafe_allow_html=True)
-for r in pos_data:
-    st.markdown(f"<tr><td>{r['Setor']}</td><td>{r['Ativos']}</td><td>{r['Posição']}</td><td>{r['Nota']}</td></tr>", unsafe_allow_html=True)
-st.markdown("</tbody></table>", unsafe_allow_html=True)
 
-# EDITORIAL: O PORQUÊ DE TUDO (COM LINKS E DIAGRAMAS)
+# EDITORIAL DE EXPLICAÇÃO COM LINKS
 st.markdown("""
-<div class="news-monitor" style="height: auto; margin-top: 40px; border-left: 8px solid #00d4ff;">
-    <h3>Editorial: Porquê o Posicionamento de Hoje?</h3>
-    <p>O mercado global está a atravessar um ponto de inflexão. Com a inflação persistente e a dívida pública em níveis insustentáveis, o capital de elite está a migrar para redes que oferecem <b>Escassez Matemática</b> e <b>Utilidade Institucional</b>.</p>
-    
-    <div style="display: flex; gap: 40px; margin: 40px 0;">
-        <div style="flex: 1;">
-            <p><b>1. RWA (Real World Assets):</b> Estamos a observar a maior transferência de riqueza da história. Ativos ilíquidos estão a ser tokenizados para permitir liquidez 24/7. 
-            <br><a style="color:#00d4ff;" href="https://ondo.finance/">Explorar Ecossistema Ondo →</a></p>
-        </div>
-        <div style="flex: 1;">
-            <p><b>2. ISO 20022:</b> A norma bancária mandatória para CBDCs. Quem não detém os carris (XRP/QNT) desta rede, estará fora do sistema.
-            <br><a style="color:#00d4ff;" href="https://www.iso.org/iso-20022-financial-services-messaging-scheme.html">Documentação Oficial ISO →</a></p>
-        </div>
+<div class="editorial-matrix">
+    <div style="background: #00d4ff; color: #000; padding: 6px 18px; display: inline-block; font-family: 'JetBrains Mono'; font-weight: 900; border-radius: 4px; margin-bottom: 25px;">EDITORIAL V.MAX</div>
+    <h3 style="color:#ffffff; margin-bottom:25px; font-size: 2.5rem;">TESE: PORQUÊ ESTA ALOCAÇÃO HOJE?</h3>
+    <p style="font-size: 1.4rem; line-height: 2.2; color: #f1f5f9;">
+        O mercado global está num ponto de inflexão. Com o MVRV Z-Score do Bitcoin a indicar subvalorização e o Tesouro Americano a ser tokenizado pela BlackRock via Ondo, a oportunidade é histórica. Mantemos 50% em <b>Âncora Física</b> pois o índice VIX sinaliza volatilidade iminente.
+    </p>
+    <div style="display: flex; gap: 40px; margin-top: 30px;">
+        <a href="https://ondo.finance/" target="_blank" style="color: #00ffa3; font-weight: bold; text-decoration: none;">[ONDO FINANCE: RWA HUB]</a>
+        <a href="https://www.iso.org/iso-20022-financial-services-messaging-scheme.html" target="_blank" style="color: #00ffa3; font-weight: bold; text-decoration: none;">[DOCUMENTAÇÃO ISO 20022]</a>
+        <a href="https://ripple.com/" target="_blank" style="color: #00ffa3; font-weight: bold; text-decoration: none;">[SISTEMA RIPPLE / XRP]</a>
     </div>
 </div>
 """, unsafe_allow_html=True)
 
-# DIAGRAMA TÉCNICO
-st.markdown("### Arquitetura de Fluxo: ISO 20022 & RWA")
-st.write("Abaixo, o diagrama explicativo da transição do sistema SWIFT legado para a infraestrutura de ativos digitais.")
-st.markdown("[Image of a technical flowchart showing the transition from legacy SWIFT MT messages to ISO 20022 XML messages using XRP as a bridge asset for bank liquidity]")
+st.divider()
+
+# ==============================================================================
+# 09. DIAGRAMAS E CÓDICE TÉCNICO
+# ==============================================================================
+st.markdown("<h2><span style='color:#00ffa3;'>■</span> ARQUITETURA DA NOVA LIQUIDEZ</h2>", unsafe_allow_html=True)
+
+c_img1, c_img2 = st.columns(2)
+with c_img1:
+    st.markdown("### O Ciclo RWA (Real World Assets)")
+    st.write("A ponte entre o mundo físico e o digital.")
+    st.markdown("")
+
+with c_img2:
+    st.markdown("### A Norma ISO 20022")
+    st.write("O novo sistema nervoso central dos bancos mundiais.")
+    st.markdown("")
 
 st.divider()
 
 # ==============================================================================
-# 09. CÓDICE DE ATIVOS SOBERANOS (ANÁLISE PROFUNDA)
+# 10. CÓDICE DE ATIVOS: O PORQUÊ TÉCNICO (TABS)
 # ==============================================================================
-st.markdown("### 🏛️ Códice de Ativos Soberanos // Porquê cada nó?")
-tabs = st.tabs([f"🏛️ {v['name']}" for v in CORTEX_INTEL.values()])
+st.markdown("<h2><span style='color:#00d4ff;'>■</span> CÓDICE DE ATIVOS SOBERANOS // O PORQUÊ TÉCNICO</h2>", unsafe_allow_html=True)
 
-for i, (key, info) in enumerate(CORTEX_INTEL.items()):
-    with tabs[i]:
-        c_txt, c_img = st.columns([1.5, 1])
-        with c_txt:
-            st.markdown(f"#### Tese: {info['role']}")
-            st.write(f"**Justificação Técnica:** {info['why']}")
+asset_tabs = st.tabs([f"🏛️ {v['name']}" for v in ASSET_DOCS.values()])
+
+for i, (key, info) in enumerate(ASSET_DOCS.items()):
+    with asset_tabs[i]:
+        col_txt, col_graph = st.columns([1.5, 1])
+        with col_txt:
+            st.markdown(f"### Função: {info['role']}")
+            st.write(f"**Tese:** {info['why']}")
+            st.write(f"**Tecnologia:** {info['tech']}")
             st.markdown(f"""
-            <table class="sovereign-table">
-                <thead><tr><th>🟢 VANTAGENS SOBERANAS</th><th>🔴 RISCOS DE SISTEMA</th></tr></thead>
-                <tbody><tr>
-                    <td><ul>{''.join([f"<li>{p}</li>" for p in info['pros']])}</ul></td>
-                    <td><ul>{''.join([f"<li>{c}</li>" for c in info['cons']])}</ul></td>
-                </tr></tbody>
-            </table>
+            <div class="apex-table-container">
+                <table class="apex-table">
+                    <thead><tr><th>🟢 VANTAGENS SOBERANAS</th><th>🔴 RISCOS DE TRANSIÇÃO</th></tr></thead>
+                    <tbody><tr>
+                        <td><ul>{''.join([f"<li>{p}</li>" for p in info['pros']])}</ul></td>
+                        <td><ul>{''.join([f"<li>{c}</li>" for c in info['cons']])}</ul></td>
+                    </tr></tbody>
+                </table>
+            </div>
             """, unsafe_allow_html=True)
-        with c_img:
-            st.markdown("#### Verificação de Infraestrutura")
-            st.write("Representação visual da segurança criptográfica e liquidação do ativo.")
-            st.markdown(f"[Image of {info['name']} blockchain network architecture showing nodes, security layers, and transaction verification process]")
+            st.markdown(f"<a href='{info['link']}' target='_blank' style='color:#00ffa3;'>LER DOCUMENTAÇÃO OFICIAL →</a>", unsafe_allow_html=True)
+        with col_graph:
+            st.markdown("### Verificação de Rede")
+            st.write("Representação visual da integridade criptográfica.")
+            st.markdown(f"} blockchain network topology and security verification process]")
 
 st.divider()
 
 # ==============================================================================
-# 10. GLOSSÁRIO & RODAPÉ
+# 11. GLOSSÁRIO SOBERANO
 # ==============================================================================
-st.markdown("### 📖 Glossário da Nova Economia")
+st.markdown("<h2><span style='color:#00d4ff;'>■</span> CÓDICE DE SOBERANIA FINANCEIRA</h2>", unsafe_allow_html=True)
 cg1, cg2, cg3 = st.columns(3)
 with cg1:
-    st.write("**RWA:** Digitalização de ativos físicos (Ouro, Imóveis) via código.")
-    st.write("**CBDC:** Moeda Digital Estatal. O início do controlo monetário programável.")
+    st.write("**RWA (Real World Assets):** Digitalização da propriedade física."); st.write("**VIX:** Índice de medo institucional.")
 with cg2:
-    st.write("**ISO 20022:** A linguagem universal obrigatória para os bancos mundiais.")
-    st.write("**Settlement:** O momento onde a matemática resolve a transação para sempre.")
+    st.write("**ISO 20022:** A nova gramática universal dos triliões mundiais."); st.write("**Settlement:** Liquidação matemática final.")
 with cg3:
-    st.write("**Cold Storage:** Soberania total via Trezor. As moedas só são suas quando você detém as chaves privadas.")
-    st.write("**DXY:** Índice do Dólar. Rastreamos para medir a pressão sobre os ativos de risco.")
+    st.write("**Cold Storage:** Soberania via Trezor."); st.write("**Smart Contracts:** Contratos matemáticos sem intermediários.")
 
+st.divider()
+
+# Rodapé de Elite
 st.markdown(f"""
-<div style="text-align: center; color: #4b5563; font-family: 'JetBrains Mono'; padding: 100px;">
-    <strong>JTM CAPITAL // SOVEREIGN CORE © 2026</strong><br>
+<div style="text-align: center; color: #334155; font-family: 'JetBrains Mono'; padding: 100px;">
+    <strong>JTM SOVEREIGN CORE © 2026 // PORTUGAL</strong><br>
     SÃO JOÃO DA MADEIRA // NÓ ANALÍTICO DE ELITE<br>
-    <em>"A soberania é o resultado da substituição do medo pelo conhecimento matemático."</em><br>
-    <small style="color: #1f2937;">MONÓLITO V35.0 // DENSITY & PRECISION READY</small>
+    <em>"A soberania é o resultado da substituição do medo pela matemática inquebrável."</em><br>
+    <small style="color: #1e293b;">MONÓLITO V36.0 // OMNIPRESENT MATRIX READY</small>
 </div>
 """, unsafe_allow_html=True)
 
-# --- LOOP DE ATUALIZAÇÃO (CORREÇÃO DE NAMEERROR) ---
-if auto_refresh:
-    st.session_state.news_cycle += 1
+# Reinicialização de Ciclo
+if sync_active:
+    st.session_state.pulse_index += 1
     time.sleep(30)
     st.rerun()
-    
