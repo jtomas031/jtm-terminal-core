@@ -411,3 +411,4 @@ if time.time() - st.session_state.last_refresh > REFRESH_RATE:
     st.session_state.news_index += 1
     st.session_state.last_refresh = time.time()
     st.rerun()
+    
